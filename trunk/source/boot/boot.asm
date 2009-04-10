@@ -6,6 +6,7 @@
 ; * Setup 32-bit stack
 ; * Jump to kernel's entry point
 ; --------------------
+BITS 16 ; 16-bits until protected mode
 ORG 0x7C00 ; BIOS loads to this address
 
 
