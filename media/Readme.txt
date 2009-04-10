@@ -1,0 +1,1 @@
+This directory is not related to the actual operating system.
