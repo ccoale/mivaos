@@ -1,0 +1,8 @@
+#labels Featured
+#View screenshots of the progress we have made so far.
+
+= Screenshots =
+Below you can see screenshots of what we have completed so far. Please be aware that some images may be very old and may not represent the current status of the project. Be sure to check back often as updates are always made.
+
+== Early Stages of the Boot Loader ==
+[http://mivaos.googlecode.com/svn/trunk/media/screenshots/bootloader_01.PNG]
