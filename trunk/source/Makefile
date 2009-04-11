@@ -12,6 +12,8 @@ all:	$(O_FILES) $(A_FILES)
 	@echo `date '+%H:%M:%S:'` Linking
 	@ld -t -T linker.ld -o $(OUTPUT) $(A_FILES) $(O_FILES_L)
 	@echo Compile should be complete. $(OUTPUT) generated!
+	@echo generating iso:
+	@cd ../;./build.sh
 $(A_FILES): %.o:%.asm
 	 @echo `date '+%H:%M:%S:'` Compiling $<.
 	 @$(AS) $(A_FLAGS) $<
