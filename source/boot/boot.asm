@@ -40,7 +40,7 @@ gdt_flush:
 flush2:
 	ret ;return from function
 
-_idt_load:
+idt_load:
 lidt[idtp]
 ret
 	
