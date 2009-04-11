@@ -4,7 +4,7 @@ AS=nasm
 A_FLAGS= -f elf
 L_FLAGS=
 OUTPUT =../bin/kernel.bin
-O_FILES	=main.o
+O_FILES	=video.o main.o
 A_FILES=boot.o
 all:	$(O_FILES) $(A_FILES)
 	@rm -f $(OUTPUT)
