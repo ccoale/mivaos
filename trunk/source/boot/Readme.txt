@@ -1,1 +1,0 @@
-This directory contains the source for the Miva OS bootloader.
