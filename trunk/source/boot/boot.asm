@@ -1,8 +1,11 @@
 extern gp
+extern idtp
+extern kmain
+
 global gdt_flush
+global idt_load
 
 global loader:
-extern kmain
 
 	MODULEALIGN equ 1<<0
 	MEMINFO equ 1<<1
@@ -36,6 +39,10 @@ gdt_flush:
 	jmp 0x08:flush2
 flush2:
 	ret ;return from function
+
+_idt_load:
+lidt[idtp]
+ret
 	
 hang:
 	hlt
