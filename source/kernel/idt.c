@@ -38,6 +38,6 @@ void idt_install(void)
 {
 idtp.limit=((sizeof(struct idt_node)*256)-1);
 idtp.base=&idt;
-_zeromem(&idt,(sizeof(struct idt_node)*256));
+memSet(&idt,NULL,(sizeof(struct idt_node)*256));
 idt_load();
 }
