@@ -38,8 +38,8 @@ void console_update(void)
 	temp = _console_y * 80 + _console_x; // get last position
 
 	// Sends command to the VGA port.
-	_outportb(0x3D4, 14);
-	_outputb(0x3D5, temp >> 8);
+_outportb(0x3D4, 14);
+_outportb(0x3D5, temp >> 8);
 	_outportb(0x3D4, 15);
 	_outportb(0x3D5, temp);
 }

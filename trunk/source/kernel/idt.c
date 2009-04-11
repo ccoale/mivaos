@@ -37,7 +37,7 @@ idt[num].flags=flags;
 void idt_install(void)
 {
 idtp.limit=((sizeof(struct idt_node)*256)-1);
-idtp.base=&idt;
+idtp.base=(UINT)&idt;
 _memset(&idt,NULL,(sizeof(struct idt_node)*256));
 idt_load();
 }
