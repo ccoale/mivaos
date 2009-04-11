@@ -3,7 +3,8 @@
 void kmain(void* mbd,unsigned int magic) 
 { 
 	gdt_install();
-	console_clear(); // clear the console..
+idt_install();
+	console_cls(); // clear the console..
 	console_puts("Hello World!");
 } 
 
