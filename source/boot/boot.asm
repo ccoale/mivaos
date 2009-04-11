@@ -1,5 +1,6 @@
-global _gdt_flush
-extern _gp
+extern gp
+global gdt_flush
+
 global loader:
 extern kmain
 
@@ -24,8 +25,8 @@ loader:
 	call kmain
 	cli
 
-_gdt_flush:
-	lgdt [_gp]
+gdt_flush:
+	lgdt [gp]
 	mov ax, 0x10 ;Load GDT using our "global gdt pointer"
 	mov ds, ax
 	mov es, ax
