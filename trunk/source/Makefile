@@ -4,13 +4,14 @@ AS=nasm
 A_FLAGS= -f elf
 L_FLAGS=
 OUTPUT =../bin/kernel.bin
-O_FILES	= console/console.o kernel/kernel.o
-O_FILES_L = console.o kernel.o
+O_FILES	= kernel/video.o kernel/kernel.o
+O_FILES_L = video.o kernel.o
 A_FILES= boot/boot.o
 all:	$(O_FILES) $(A_FILES)
 	@rm -f $(OUTPUT)
 	@echo `date '+%H:%M:%S:'` Linking
 	@ld -t -T linker.ld -o $(OUTPUT) $(A_FILES) $(O_FILES_L)
+	@echo Compile should be complete. $(OUTPUT) generated!
 $(A_FILES): %.o:%.asm
 	 @echo `date '+%H:%M:%S:'` Compiling $<.
 	 @$(AS) $(A_FLAGS) $<
