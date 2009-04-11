@@ -1,3 +1,5 @@
+global _gdt_flush
+extern _gp
 global loader:
 extern kmain
 
