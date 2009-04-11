@@ -1,43 +1,45 @@
+/*
+** Provides basic functionality for outputting text to the console.
+**
+*/
 #ifndef __VIDEO_H
 #define __VIDEO_H
-#include "types.h"
-/*
-video API header
-*/
-#define VIDEO_BASE 0xb8000 //the location in memory where our video buffer starts
-//our base colors
-#define COL_BLACK 0x0000
-#define COL_BLUE 0x0010
-#define COL_GREEN 0x0020
-#define COL_CYAN 0x0030
-#define COL_RED 0x0040
-#define COL_MAGENTA 0x0050
-#define COL_BROWN0x0060
-#define COL_LGREY 0x0070
-#define COL_DGREY 0x0080
-#define COL_LBLUE 0x0090
-#define COL_LGREEN 0x00A0
-#define COL_LCYAN 0x00B0
-#define COL_LRED 0x00C0
-#define COL_LMAGENTA 0x00D0
-#define COL_LBROWN 0x00E0
-#define COL_WHITE 0x00F0
-//whatPx
-//returns the element in the node where the specified pixil is
-//should be added to the VIDEO_ADDR to get the exact location in memory
-#define whatPx(x,y)((y*80)+x)
-//offsetPx
-//Returns the exact location in memory where the pixil can be changed
-//adds the element from whatPx, then adds the base address
-#define offsetPx(x,y)(whatPx(x,y)+VIDEO_BASE)
-//makeDefChar
-//will return a short with the char ready to print, with black on white.
-#define makeDefChar(char)(char|((COL_BLACK<<4)|(COL_WHITE&0x0F))<<8)
-//makeChar
-//will return a short with the forground and background colors added in
-#define makeChar(char,b,f)(char|((b<<4)|(f&0x0F))<<8)
-//cls:
-//will clear the screen
-void cls();
-#endif
+
+// Console Colors
+#define COLOR_BLACK 	0x00
+#define COLOR_BLUE 	0x10
+#define COLOR_GREEN 	0x20
+#define COLOR_CYAN 	0x30
+#define COLOR_RED 	0x40
+#define COLOR_MAGENTA 	0x50
+#define COLOR_BROWN	0x60
+#define COLOR_LGREY 	0x70
+#define COLOR_DGREY 	0x80
+#define COLOR_LBLUE 	0x90
+#define COLOR_LGREEN 	0xA0
+#define COLOR_LCYAN 	0xB0
+#define COLOR_LRED 	0xC0
+#define COLOR_LMAGENTA 	0xD0
+#define COLOR_LBROWN 	0xE0
+#define COLOR_WHITE 	0xF0
+
+//! Scrolls the console by 1 row
+void console_scroll(void);
+
+//! Updates the hardware cursor
+void console_update(void);
+
+//! Clears the console using the current attributes
+void console_clear(void);
+
+//! Prints a character to the console using current text attributes
+void console_putch(unsigned char c);
+
+//! Prints a string to the console using current text attributes
+void console_puts(const char *str);
+
+//! Sets the text attributes for the console
+void console_setcolor(unsigned char fore, unsigned char back);
+
+#endif /* __VIDEO_H */
 

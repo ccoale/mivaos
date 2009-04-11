@@ -1,14 +1,19 @@
 #ifndef __MEMORY_H
 #define __MEMORY_H
-#include "types.h"
+
+#ifndef size_t
+typedef unsigned int size_t;
+#endif
+
 /*
 Basic memory functions
 */
-//memSet
-//Will set a specified length of memory to the value specified, starting at the specified address
-void* memSet(void* dest,BYTE val,size_t len);
-//memZero
-//uses memSet to write NULL (0x00) values to the specified block of memory
-void* memZero(void* dest, size_t len);
+void *_memcpy(void *dest, const void *src, size_t count);
+void *_memset(void *dest, char val, size_t count);
+unsigned short *_memsetw(unsigned short *dest, unsigned short val, size_t count);
+size_t _strlen(const char *str);
+unsigned char _inportb (unsigned short _port);
+void _outportb (unsigned short _port, unsigned char _data);
+
 #endif
 
