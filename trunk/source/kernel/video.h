@@ -8,7 +8,11 @@ video API header
 //whatPx
 //returns the element in the node where the specified pixil is
 //should be added to the VIDEO_ADDR to get the exact location in memory
-int whatPx(int x, int y);
+#define whatPx(x,y)((y*80)+x)
+//offsetPx
+//Returns the exact location in memory where the pixil can be changed
+//adds the element from whatPx, then adds the base address
+#define offsetPx(x,y)(whatPx(x,y)+VIDEO_BASE)
 //cls:
 //will clear the screen
 void cls();
