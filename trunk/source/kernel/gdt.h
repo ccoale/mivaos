@@ -7,5 +7,8 @@ void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned cha
 //! Installs the base GDT
 void gdt_install();
 
+//! Reloads new segment registers
+extern void gdt_flush(void);
+
 #endif /* __GDT_H */
 
