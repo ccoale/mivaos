@@ -41,7 +41,7 @@ flush2:
 	ret ;return from function
 
 idt_load:
-lidt[idtp]
+	lidt[idtp]
 ret
 	
 hang:

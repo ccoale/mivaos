@@ -26,6 +26,11 @@ unsigned short *_memsetw(unsigned short *dest, unsigned short val, size_t count)
     return dest;
 }
 
+void *_zeromem(void *dest, size_t count)
+{
+	return _memset(dest, 0, count);
+}
+
 size_t _strlen(const char *str)
 {
 	const char *end = str;
