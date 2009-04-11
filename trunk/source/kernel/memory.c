@@ -17,3 +17,4 @@ void* memZero(void* dest,size_t len)
 {
 return (memSet(dest,NULL,len));
 }
+

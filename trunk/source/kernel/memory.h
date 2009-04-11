@@ -11,3 +11,4 @@ void* memSet(void* dest,BYTE val,size_t len);
 //uses memSet to write NULL (0x00) values to the specified block of memory
 void* memZero(void* dest, size_t len);
 #endif
+
