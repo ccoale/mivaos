@@ -1,4 +1,4 @@
-IN order to provide for eas-of-readability, coders are expected to follow the following conventions.
+IN order to provide for ease-of-readability, coders are expected to follow the following conventions.
 These will (hopefully) make code easier to read, and make functions to find.
 Functions should have each word capitalized, such as MyFunction.
 Variable names should have the second and any following words capitalized, such as thisIsMyVariable.
