@@ -1,0 +1,9 @@
+IN order to provide for eas-of-readability, coders are expected to follow the following conventions.
+These will (hopefully) make code easier to read, and make functions to find.
+Functions should have each word capitalized, such as MyFunction.
+Variable names should have the second and any following words capitalized, such as thisIsMyVariable.
+Macros and pre-defined typedefs (such as typedef unsigned char BYTE) should be in all caps.
+Comments should come before include guards.
+Include guarder defines should be proceeded with two underscores (__), and be in all caps, with an underline separateing the include define and h. For example, __MYHEADER_H.
+
+Last revised: 04-11-09

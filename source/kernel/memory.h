@@ -1,3 +1,8 @@
+/*
+Basic memory functions
+used for manipulating blocks of memory
+*/
+
 #ifndef __MEMORY_H
 #define __MEMORY_H
 
@@ -5,9 +10,6 @@
 typedef unsigned int size_t;
 #endif
 
-/*
-Basic memory functions
-*/
 void *_memcpy(void *dest, const void *src, size_t count);
 void *_memset(void *dest, char val, size_t count);
 unsigned short *_memsetw(unsigned short *dest, unsigned short val, size_t count);

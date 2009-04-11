@@ -6,17 +6,17 @@ Interupt descripter table
 
 struct idt_node
 {
-ushort base_low;
-ushort sel; //kernel segment
-UBYTE zero;
-UBYTE flags;
-ushort base_high;
+WORD base_low;
+WORD sel; //kernel segment
+BYTE zero;
+BYTE flags;
+WORD base_high;
 } __attribute__((packed));
 
 struct idt_ptr
 {
-ushort limit;
-uint base;
+WORD limit;
+UINT base;
 } __attribute__((packed));
 
 //global IDTs:
@@ -25,12 +25,12 @@ struct idt_ptr idtp;
 
 extern void idt_load();
 
-void idt_set_gate(UBYTE num,ulong base,ushort sel,UBYTE flags)
+void idt_set_gate(BYTE num,DWORD base,WORD sel,BYTE flags)
 {
 idt[num].base_low=(base&0xFFFF);
 idt[num].base_high=(base>>16)&0xFFFF;
 idt[num].sel=sel;
-idt[num].zero=0;
+idt[num].zero=NULL;
 idt[num].flags=flags;
 }
 
@@ -38,6 +38,6 @@ void idt_install(void)
 {
 idtp.limit=((sizeof(struct idt_node)*256)-1);
 idtp.base=&idt;
-memSet(&idt,NULL,(sizeof(struct idt_node)*256));
+_memset(&idt,NULL,(sizeof(struct idt_node)*256));
 idt_load();
 }
