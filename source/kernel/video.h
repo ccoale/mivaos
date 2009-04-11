@@ -55,7 +55,7 @@ video API header
 #define makeDefChar(char)(char|((B_BLACK<<4)|(F_WHITE&0x0F))<<8)
 //makeChar
 //will return a short with the forground and background colors added in
-#define makeChar(char,b,f)(((BYTE)char&b)&f)
+#define makeChar(char,b,f)(char|((b<<4)|(f&0x0F))<<8)
 //cls:
 //will clear the screen
 void cls();
