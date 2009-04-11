@@ -13,14 +13,14 @@ struct gdt_entry
     unsigned char access;
     unsigned char granularity;
     unsigned char base_high;
-} __attribute__((__packed__));
+} __attribute__((packed));
 
 //! GDT pointer structure
 struct gdt_ptr
 {
 	unsigned short limit;
 	unsigned int base;
-} __attribute__((__packed__));
+} __attribute__((packed));
 
 //! Global GDT entries
 struct gdt_entry gdt[3];
@@ -46,7 +46,7 @@ void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned cha
 }
 
 //! Sets up our basic GDT by installing 3 entries in the GDT, and flushing the GDT.
-void gdt_install(void)
+void gdt_install()
 {
     /* Setup the GDT pointer and limit */
     gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
