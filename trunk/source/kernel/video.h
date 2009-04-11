@@ -52,7 +52,7 @@ video API header
 #define offsetPx(x,y)(whatPx(x,y)+VIDEO_BASE)
 //makeDefChar
 //will return a short with the char ready to print, with black on white.
-#define makeDefChar(char)(((BYTE)char&B_BLACK)&F_WHITE)
+#define makeDefChar(char)(char|((B_BLACK<<4)|(F_WHITE&0x0F))<<8)
 //makeChar
 //will return a short with the forground and background colors added in
 #define makeChar(char,b,f)(((BYTE)char&b)&f)
