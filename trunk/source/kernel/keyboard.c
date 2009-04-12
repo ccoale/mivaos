@@ -7,45 +7,24 @@
 
 BYTE g_nKeyStates[256] = {0};
 
-BYTE US_SC[128]=
+BYTE US_SC[237]=
 {
-    0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
-  '9', '0', '-', '=', '\b',				/* Backspace */
-  '\t',							/* Tab */
-  'q', 'w', 'e', 'r',					/* 19 */
-  't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n',		/* Enter key */
-    0,							/* 29   - Control */
-  'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',	/* 39 */
- '\'', '`',   0,					/* Left shift */
- '\\', 'z', 'x', 'c', 'v', 'b', 'n',			/* 49 */
-  'm', ',', '.', '/',   0,				/* Right shift */
-  '*',
-    0,							/* Alt */
-  ' ',							/* Space bar */
-    0,							/* Caps lock */
-    0,							/* 59 - F1 key ... > */
-    0,   0,   0,   0,   0,   0,   0,   0,
-    0,							/* < ... F10 */
-    0,							/* 69 - Num lock*/
-    0,							/* Scroll Lock */
-    0,							/* Home key */
-    0,							/* Up Arrow */
-    0,							/* Page Up */
-  '-',
-    0,							/* Left Arrow */
-    0,
-    0,							/* Right Arrow */
-  '+',
-    0,							/* 79 - End key*/
-    0,							/* Down Arrow */
-    0,							/* Page Down */
-    0,							/* Insert Key */
-    0,							/* Delete Key */
-    0,   0,   0,
-    0,							/* F11 Key */
-    0,							/* F12 Key */
-    0,							/* All other keys are undefined */
+0,'1','2','3','4','5','6','7','8','9','0','-','\b',
+'\t','q','w','e','r','t','y','u','i','o','p','[',']','\n',
+0,'a','s','d','f','g','h','j','k','l',';''\'','`',0,'\\',
+'z','x','c','v','b','n','m',',','.','/',0,
+'*',0,' ',
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,
+0,0,0,0
+0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,':','_',0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,','''/',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,'\b'
 };
+
+volatile BYTE LastChar=NULL;
 
 void KeyboardHandler(struct regs *r)
 {
@@ -60,14 +39,8 @@ void KeyboardHandler(struct regs *r)
 	}
 }
 
-void KeyboardInstall()
-{
-	ConsolePuts("Registering Keyboard.\n");
-	IrqInstallHandler(1,KeyboardHandler);
-}
-
 //! Returns the state of the specified scan code.
-UINT GetKeyState(UINT key)
+BOOLGetKeyState(UINT key)
 {
 	return g_nKeyStates[key];
 }
@@ -77,4 +50,60 @@ void GetKeyboardState(BYTE *buff)
 {
 	// copy the keyboard state buffer...
 	_memcpy((void *)buff, (void *)&g_nKeyStates, 256);
+}
+
+//scancode translation:
+BYTE TranslateScanCode(UINT code)
+{
+BYTE sc=NULL;
+int asc=0;
+if ((g_nKeyStates[KEY_LSHIFT])||(g_nKeyStates[KEY_RSHIFT]))
+{
+asc=(int)sc;
+if ((asc>=97)&&(asc<=122))
+{
+asc-=32;
+}
+switch(asc)
+{
+case 35:
+case 36:
+case 37:
+case 38:
+asc+=16;
+break;
+case 49:
+asc=33;
+break;
+case 50:
+asc=64;
+break;
+case 55:
+asc=94;
+break;
+case 56:
+asc=42;
+break;
+case 57:
+asc=40;
+break;
+case 48:
+asc=41;
+break;
+case 59:
+asc=58;
+break;
+case 91:
+case 92:
+case 93:
+asc+=32;
+break;
+}
+return (BYTE)asc;
+}
+
+void KeyboardInstall()
+{
+	ConsolePuts("Registering Keyboard.\n");
+	IrqInstallHandler(1,KeyboardHandler);
 }
