@@ -172,9 +172,10 @@ Only supports US so far, more will be added.
 void KeyboardInstall();
 
 //! Returns the state of the specified scan code.
-UINT GetKeyState(UINT key);
+BOOL GetKeyState(UINT key);
 
 //! Returns the state of the every key in a 256-byte buffer.
 void GetKeyboardState(BYTE *buff);
+BYTE TranslateScanCode(UINT code);
 
 #endif
