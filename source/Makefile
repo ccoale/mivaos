@@ -22,5 +22,5 @@ $(O_FILES): %.o : %.c
 	@$(CC) -c $(C_FLAGS) $<
 clean:
 	@echo `date '+%H:%M:%S:'` Deleting $(OUTPUT) and all associated object files...
-	@rm -f *.o
-	@rm -f $(OUTPUT)
+	@rm -f $(O_FILES) $(O_FILES_L) $(A_FILES)
+	@rm -rf $(OUTPUT)
