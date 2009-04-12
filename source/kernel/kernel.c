@@ -22,5 +22,6 @@ KeyboardInstall();
 	DWORD start = GetTickCount();
 	while (1) 
 	{
+		
 	}
 } 
