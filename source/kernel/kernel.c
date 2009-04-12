@@ -27,7 +27,6 @@ void kmain(void* mbd,unsigned int magic)
 		{
 			if (GetKeyState(i))
 			{
-				ConsolePuts("Cought key...\n");
 				ConsolePutch((char)TranslateScancode(i));
 			}
 		}

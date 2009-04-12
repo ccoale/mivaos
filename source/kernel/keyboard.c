@@ -9,8 +9,8 @@ BYTE g_nKeyStates[256] = {0};
 
 BYTE US_SC[256]=
 {
-	// KEY_ESCAPE
-	0,
+	// NULL, KEY_ESCAPE
+	0, 0,
 
 	// KEY_1 through KEY_0
 	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
@@ -101,11 +101,10 @@ void GetKeyboardState(BYTE *buff)
 //scancode translation:
 BYTE TranslateScancode(UINT code)
 {
-	BYTE sc = NULL;
-	int asc = 0;
-	if ((g_nKeyStates[KEY_LSHIFT])||(g_nKeyStates[KEY_RSHIFT]))
+	BYTE sc = code;
+	int asc = US_SC[(int)sc];
+	if ( (g_nKeyStates[KEY_LSHIFT]) || (g_nKeyStates[KEY_RSHIFT]) )
 	{
-		asc=(int)sc;
 		if ((asc>=97)&&(asc<=122))
 		{
 			return asc - 32;
@@ -114,39 +113,72 @@ BYTE TranslateScancode(UINT code)
 		{
 			switch(asc)
 			{
-				case 35:
-				case 36:
-				case 37:
-				case 38:
-					asc+=16;
+				case '0':
+					asc = ')';
 					break;
-				case 49:
-					asc=33;
+				case '1':
+					asc = '!';
 					break;
-				case 50:
-					asc=64;
+				case '2':
+					asc = '@';
 					break;
-				case 55:
-					asc=94;
+				case '3':
+					asc = '#';
 					break;
-				case 56:
-					asc=42;
+				case '4':
+					asc = '$';
 					break;
-				case 57:
-					asc=40;
+				case '5':
+					asc = '%';
 					break;
-				case 48:
-					asc=41;
+				case '6':
+					asc = '^';
 					break;
-				case 59:
-					asc=58;
+				case '7':
+					asc = '&';
 					break;
-				case 91:
-				case 92:
-				case 93:
-					asc+=32;
+				case '8':
+					asc = '*';
+					break;
+				case '9':
+					asc = '(';
+					break;
+				case '-':
+					asc = '_';
+					break;
+				case '=':
+					asc = '+';
+					break;
+				case '`':
+					asc = '~';
+					break;
+				case ',':
+					asc = '<';
+					break;
+				case '.':
+					asc = '>';
+					break;
+				case '/':
+					asc = '?';
+					break;
+				case '\'':
+					asc = '"';
+					break;
+				case ';':
+					asc = ':';
+					break;
+				case '[':
+					asc = '{';
+					break;
+				case ']':
+					asc = '}';
+					break;
+				case '\\':
+					asc = '|';
 					break;
 			}
+
+			return asc;
 		}
 	}
 
