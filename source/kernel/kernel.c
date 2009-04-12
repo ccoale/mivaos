@@ -20,7 +20,6 @@ void kmain(void* mbd,unsigned int magic)
 	DWORD start = GetTickCount();
 	while (1) 
 	{
-		int x = 500 / 0;
 	}
 } 
 
