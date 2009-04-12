@@ -2,6 +2,7 @@
 ** IRQ api
 */
 #include "irq.h"
+#include "video.h"
 
 // Custom IRQs
 extern void _irq0();
@@ -22,26 +23,26 @@ extern void _irq14();
 extern void _irq15();
 
 // Array of IRQ function pointers
-void *irq_routines[16] =
+void *IrqRoutines[16] =
 {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0
 };
 
 // Installs a handler for the given IRQ number.
-void irq_install_handler(int irq, void (*handler)(struct regs *r))
+void IrqInstallHandler(int irq, void (*handler)(struct regs *r))
 {
-    irq_routines[irq] = handler;
+    IrqRoutines[irq] = handler;
 }
 
 // Uninstalls a handler for the given IRQ number.
-void irq_uninstall_handler(int irq)
+void IrqUninstallHandler(int irq)
 {
-    irq_routines[irq] = 0;
+    IrqRoutines[irq] = 0;
 }
 
 // Remaps the IRQs
-void irq_remap(void)
+void IrqRemap(void)
 {
     _outportb(0x20, 0x11);
     _outportb(0xA0, 0x11);
@@ -56,37 +57,38 @@ void irq_remap(void)
 }
 
 // Installs our IRQs
-void irq_install()
+void IrqInstall()
 {
-    irq_remap();
+ConsolePuts("Installing IRQ.\n");
+    IrqRemap();
 
-    idt_set_gate(32, (unsigned)_irq0, 0x08, 0x8E);
-    idt_set_gate(33, (unsigned)_irq1, 0x08, 0x8E);
-    idt_set_gate(34, (unsigned)_irq2, 0x08, 0x8E);
-    idt_set_gate(35, (unsigned)_irq3, 0x08, 0x8E);
-    idt_set_gate(36, (unsigned)_irq4, 0x08, 0x8E);
-    idt_set_gate(37, (unsigned)_irq5, 0x08, 0x8E);
-    idt_set_gate(38, (unsigned)_irq6, 0x08, 0x8E);
-    idt_set_gate(39, (unsigned)_irq7, 0x08, 0x8E);
+    IdtSetGate(32, (unsigned)_irq0, 0x08, 0x8E);
+    IdtSetGate(33, (unsigned)_irq1, 0x08, 0x8E);
+    IdtSetGate(34, (unsigned)_irq2, 0x08, 0x8E);
+    IdtSetGate(35, (unsigned)_irq3, 0x08, 0x8E);
+    IdtSetGate(36, (unsigned)_irq4, 0x08, 0x8E);
+    IdtSetGate(37, (unsigned)_irq5, 0x08, 0x8E);
+    IdtSetGate(38, (unsigned)_irq6, 0x08, 0x8E);
+    IdtSetGate(39, (unsigned)_irq7, 0x08, 0x8E);
 
-    idt_set_gate(40, (unsigned)_irq8, 0x08, 0x8E);
-    idt_set_gate(41, (unsigned)_irq9, 0x08, 0x8E);
-    idt_set_gate(42, (unsigned)_irq10, 0x08, 0x8E);
-    idt_set_gate(43, (unsigned)_irq11, 0x08, 0x8E);
-    idt_set_gate(44, (unsigned)_irq12, 0x08, 0x8E);
-    idt_set_gate(45, (unsigned)_irq13, 0x08, 0x8E);
-    idt_set_gate(46, (unsigned)_irq14, 0x08, 0x8E);
-    idt_set_gate(47, (unsigned)_irq15, 0x08, 0x8E);
+    IdtSetGate(40, (unsigned)_irq8, 0x08, 0x8E);
+    IdtSetGate(41, (unsigned)_irq9, 0x08, 0x8E);
+    IdtSetGate(42, (unsigned)_irq10, 0x08, 0x8E);
+    IdtSetGate(43, (unsigned)_irq11, 0x08, 0x8E);
+    IdtSetGate(44, (unsigned)_irq12, 0x08, 0x8E);
+    IdtSetGate(45, (unsigned)_irq13, 0x08, 0x8E);
+    IdtSetGate(46, (unsigned)_irq14, 0x08, 0x8E);
+    IdtSetGate(47, (unsigned)_irq15, 0x08, 0x8E);
 }
 
 // Process an INTERRUPT REQUEST. When finished, sends an EOI (end of interrupt) command to 0x20.
-void irq_handler(struct regs *r)
+void IrqHandler(struct regs *r)
 {
     // handler function
     void (*handler)(struct regs*);
     
     // do we have a handler to run?
-    handler = irq_routines[r->int_no - 32];
+    handler = IrqRoutines[r->int_no - 32];
     if (handler)
     {
         handler(r);

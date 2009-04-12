@@ -24,22 +24,22 @@
 #define COLOR_WHITE 	0xF0
 
 //! Scrolls the console by 1 row
-void console_scroll(void);
+void ConsoleScroll(void);
 
 //! Updates the hardware cursor
-void console_update(void);
+void ConsoleUpdate(void);
 
 //! Clears the console using the current attributes
-void console_clear(void);
+void ConsoleClear(void);
 
 //! Prints a character to the console using current text attributes
-void console_putch(unsigned char c);
+void ConsolePutch(unsigned char c);
 
 //! Prints a string to the console using current text attributes
-void console_puts(const char *str);
+void ConsolePuts(const char *str);
 
 //! Sets the text attributes for the console
-void console_setcolor(unsigned char fore, unsigned char back);
+void ConsoleSetcolor(unsigned char fore, unsigned char back);
 
 #endif /* __VIDEO_H */
 

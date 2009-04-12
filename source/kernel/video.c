@@ -16,7 +16,7 @@ int _console_y = 0;
 unsigned short *_videomem = (unsigned short *)0xb8000;
 
 //! Scrolls the console if it needs to be scrolled.
-void console_scroll(void)
+void ConsoleScroll(void)
 {
 	unsigned short blank;
 	unsigned short temp;
@@ -32,7 +32,7 @@ void console_scroll(void)
 }
 
 //! Updates the hardware cursor
-void console_update(void)
+void ConsoleUpdate(void)
 {
 	unsigned short temp;
 	temp = _console_y * 80 + _console_x; // get last position
@@ -45,17 +45,17 @@ void console_update(void)
 }
 
 //! Clears the console using the current attribute.
-void console_cls(void)
+void ConsoleCls(void)
 {
 	unsigned short blank = 0x20 | (_console_attrib << 8); // space character
 	_memsetw(_videomem, blank, 25 * 80); // set all characters to space.
 	_console_x = 0;
 	_console_y = 0;
-	console_update(); // reset cursor position
+	ConsoleUpdate(); // reset cursor position
 }
 
 //! Prints a character to the console using current text attributes
-void console_putch(unsigned char c)
+void ConsolePutch(unsigned char c)
 {
 	if (c == 0x80) { // backspace
 		if (_console_x != 0) _console_x--;
@@ -78,22 +78,21 @@ void console_putch(unsigned char c)
 	}
 
 	// update scroll and console
-	console_scroll();
-	console_update();
+	ConsoleScroll();
+	ConsoleUpdate();
 }
 
 //! Prints a string to the console using current text attributes
-void console_puts(const char *str)
+void ConsolePuts(const char *str)
 {
 	while (*str != 0) {
-		console_putch(*str);
+		ConsolePutch(*str);
 		str++;
 	}
 }
 
 //! Sets the text attributes for the console
-void console_setcolor(unsigned char fore, unsigned char back)
+void ConsoleSetcolor(unsigned char fore, unsigned char back)
 {
 	_console_attrib = (back << 4) | (fore & 0x0F);
 }
-

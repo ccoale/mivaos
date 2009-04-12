@@ -24,7 +24,7 @@ struct idt_ptr idtp;
 
 extern void idt_load();
 
-void idt_set_gate(BYTE num, DWORD base, WORD sel, BYTE flags)
+void IdtSetGate(BYTE num, DWORD base, WORD sel, BYTE flags)
 {
 	idt[num].base_low=(base&0xFFFF);
 	idt[num].base_high=(base>>16)&0xFFFF;
@@ -33,10 +33,11 @@ void idt_set_gate(BYTE num, DWORD base, WORD sel, BYTE flags)
 	idt[num].flags=flags;
 }
 
-void idt_install(void)
+void IdtInstall(void)
 {
+ConsolePuts("Registering IDT.\n");
 	idtp.limit=((sizeof(struct idt_entry)*256)-1);
 	idtp.base=(UINT)&idt;
 	_memset(&idt,0,(sizeof(struct idt_entry)*256));
-	idt_load();
+	IdtLoad();
 }

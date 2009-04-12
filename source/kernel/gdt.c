@@ -3,6 +3,7 @@
 **
 */
 #include "gdt.h"
+#include "video.h"
 
 //! GDT entry structure
 struct gdt_entry
@@ -29,7 +30,7 @@ struct gdt_entry gdt[3];
 struct gdt_ptr gp;
 
 //! Installs a descriptor in the GDT
-void gdt_set_gate(int num, DWORD base, DWORD limit, BYTE access, BYTE gran)
+void GdtSetGate(int num, DWORD base, DWORD limit, BYTE access, BYTE gran)
 {
     /* Setup the descriptor base address */
     gdt[num].base_low = (base & 0xFFFF);
@@ -46,22 +47,23 @@ void gdt_set_gate(int num, DWORD base, DWORD limit, BYTE access, BYTE gran)
 }
 
 //! Sets up our basic GDT by installing 3 entries in the GDT, and flushing the GDT.
-void gdt_install()
+void GdtInstall()
 {
+ConsolePuts("Registering GDT.\n");
     /* Setup the GDT pointer and limit */
     gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
     gp.base = (UINT)&gdt;
 
     //! null descriptor
-    gdt_set_gate(0, 0, 0, 0, 0);
+    GdtSetGate(0, 0, 0, 0, 0);
 
     //! Code Segment Descriptor (base = 0, limit = 4GB, gran=4KB, 32-bit opcodes)
-    gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF);
+    GdtSetGate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF);
 
     //! Data Segment Descriptor (base = 0, limit = 4GB, gran=4KB, 32-bit opcodes)
-    gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF);
+    GdtSetGate(2, 0, 0xFFFFFFFF, 0x92, 0xCF);
 
     // Flush out the old GDT and install the new changes!
-    gdt_flush();
+    GdtFlush();
 }
 

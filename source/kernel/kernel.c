@@ -6,13 +6,13 @@
 
 void kmain(void* mbd,unsigned int magic)
 {
-	console_cls();
-	console_puts("MivaOS (kernel 0.0.1) Loading...\n");
-	gdt_install(); // setup gdt
-	idt_install(); // setup idt
-	isrs_install(); // setup isrs
-	irq_install(); // setup irq
-	timer_install(100); // setup our timer..
+	ConsoleCls();
+	ConsolePuts("MivaOS (kernel 0.0.1) Loading...\n");
+	GdtInstall(); // setup gdt
+	IdtInstall(); // setup idt
+	IsrsInstall(); // setup isrs
+	IrqInstall(); // setup irq
+	TimerInstall(100); // setup our timer..
 
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 
@@ -22,4 +22,3 @@ void kmain(void* mbd,unsigned int magic)
 	{
 	}
 } 
-
