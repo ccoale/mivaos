@@ -3,6 +3,7 @@
 #include "idt.h"
 #include "isrs.h"
 #include "irq.h"
+#include "keyboard.h"
 
 void kmain(void* mbd,unsigned int magic)
 {
@@ -13,6 +14,7 @@ void kmain(void* mbd,unsigned int magic)
 	IsrsInstall(); // setup isrs
 	IrqInstall(); // setup irq
 	TimerInstall(100); // setup our timer..
+KeyboardInstall();
 
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 
