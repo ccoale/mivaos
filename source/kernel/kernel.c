@@ -5,6 +5,7 @@
 #include "irq.h"
 #include "keyboard.h"
 
+
 void kmain(void* mbd,unsigned int magic)
 {
 	ConsoleCls();
@@ -19,11 +20,16 @@ void kmain(void* mbd,unsigned int magic)
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 
 
-	DWORD start = GetTickCount();
-	while (1) 
+	while (1)
 	{
-		if (GetKeyState(KEY_3)) {
-			ConsolePuts("You pressed 3!\n");
+		int i = 0;
+		for (i = 0; i < 256; i++)
+		{
+			if (GetKeyState(i))
+			{
+				ConsolePuts("Cought key...\n");
+				ConsolePutch((char)TranslateScancode(i));
+			}
 		}
 	}
 } 

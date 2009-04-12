@@ -7,21 +7,67 @@
 
 BYTE g_nKeyStates[256] = {0};
 
-BYTE US_SC[237]=
+BYTE US_SC[256]=
 {
-0,'1','2','3','4','5','6','7','8','9','0','-','\b',
-'\t','q','w','e','r','t','y','u','i','o','p','[',']','\n',
-0,'a','s','d','f','g','h','j','k','l',';''\'','`',0,'\\',
-'z','x','c','v','b','n','m',',','.','/',0,
-'*',0,' ',
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,
-0,0,0,0
-0,0,0,
-0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,':','_',0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,','''/',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,'\b'
+	// KEY_ESCAPE
+	0,
+
+	// KEY_1 through KEY_0
+	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+
+	// KEY_MINUS, KEY_EQUALS, KEY_BACK, KEY_TAB
+	'-', '=', '\b', '\t',
+
+	// KEY_(qwertyuiop), KEY_LBRACKET
+	'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[',
+
+	// KEY_RBRACKET, KEY_RETURN, KEY_LCONTROL, KEY_(asdfghj)
+	']','\n', 0, 'a', 's', 'd', 'f', 'g', 'h', 'j',
+
+	// KEY_(kl), KEY_SEMICOLON, KEY_APOSTROPHE, KEY_GRAVE, KEY_LSHIFT, KEY_BACKSLASH
+	'k', 'l',';', '\'', '`', 0, '\\', 
+
+	// KEY_(zxcvbnm), KEY_COMMA, KEY_PERIOD, KEY_SLASH, KEY_RSHIFT
+	'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 0,
+
+	// KEY_MULTIPLY, KEY_LMENU(LALT), KEY_SPACE, KEY_CAPITAL, KEY_F1 - KEY_F10
+	'*', 0, ' ', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+	// KEY_NUMLOCK, KEY_SCROLL, KEY_NUMPAD7 - KEY_NUMPAD9, KEY_SUBTRACT, KEY_NUMPAD4 - KEY_NUMPAD6
+	0, 0, '7', '8', '9', '-', '4', '5', '6', 
+
+	// KEY_ADD, KEY_NUMPAD1 - KEY_NUMPAD3, KEY_NUMPAD0, KEY_DECIMAL, KEY_OEM_102
+	'+', '1', '2', '3', '0', '.', 0, 
+
+	// KEY_F11 - KEY_F15, KEY_KANA (JAP), KEY_ABNT_C1, KEY_CONVERT, KEY_NOCONVERT
+	0, 0, 0, 0, 0, 0, 0, 0, 0,
+
+	// KEY_YEN, KEY_ABNT_C2, KEY_NUMPADEQUALS, KEY_PREVTRACK, KEY_AT, KEY_COLON
+	0, 0, '=', 0, '@', ':', 
+
+	// KEY_UNDERLINE, KEY_KANJI, KEY_STOP, KEY_AX, KEY_UNLABELED	
+	'_', 0, 0, 0, 0,
+
+	// KEY_NEXTTRACK, KEY_NUMPADENTER, KEY_RCONTROL, KEY_MUTE, KEY_CALCULATOR
+	0, '\n', 0, 0, 0, 
+
+	// KEY_PLAYPAUSE, KEY_MEDIASTOP, KEY_VOLUMEDOWN, KEY_VOLUMEUP, KEY_WEBHOME, KEY_NUMPADCOMMA
+	0, 0, 0, 0, 0, ',',
+
+	// KEY_DIVIDE, KEY_SYSRQ, KEY_RMENU, KEY_PAUSE, KEY_HOME, KEY_UP, KEY_PRIOR
+	'/', 0, 0, 0, 0, 0, 0, 
+
+	// KEY_LEFT, KEY_RIGHT, KEY_END, KEY_DOWN, KEY_NEXT
+	0, 0, 0, 0, 0,
+
+	// KEY_INSERT, KEY_DELETE, KEY_LWIN, KEY_RWIN, KEY_APPS, KEY_POWER, KEY_SLEEP 
+	0, 0, 0, 0, 0, 0, 0, 
+
+	// KEY_WAKE, KEY_WEBSEARCH, KEY_WEBFAVORITES, KEY_WEBREFRESH, KEY_WEBSTOP, KEY_WEBFORWARD
+	0, 0, 0, 0, 0, 0,
+
+	// KEY_WEBBACK, KEY_MYCOMPUTER, KEY_MAIL, KEY_MEDIASELECT
+	0, 0, 0, 0
 };
 
 volatile BYTE LastChar=NULL;
@@ -40,7 +86,7 @@ void KeyboardHandler(struct regs *r)
 }
 
 //! Returns the state of the specified scan code.
-BOOLGetKeyState(UINT key)
+BOOL GetKeyState(UINT key)
 {
 	return g_nKeyStates[key];
 }
@@ -53,53 +99,58 @@ void GetKeyboardState(BYTE *buff)
 }
 
 //scancode translation:
-BYTE TranslateScanCode(UINT code)
+BYTE TranslateScancode(UINT code)
 {
-BYTE sc=NULL;
-int asc=0;
-if ((g_nKeyStates[KEY_LSHIFT])||(g_nKeyStates[KEY_RSHIFT]))
-{
-asc=(int)sc;
-if ((asc>=97)&&(asc<=122))
-{
-asc-=32;
-}
-switch(asc)
-{
-case 35:
-case 36:
-case 37:
-case 38:
-asc+=16;
-break;
-case 49:
-asc=33;
-break;
-case 50:
-asc=64;
-break;
-case 55:
-asc=94;
-break;
-case 56:
-asc=42;
-break;
-case 57:
-asc=40;
-break;
-case 48:
-asc=41;
-break;
-case 59:
-asc=58;
-break;
-case 91:
-case 92:
-case 93:
-asc+=32;
-break;
-}
-return (BYTE)asc;
+	BYTE sc = NULL;
+	int asc = 0;
+	if ((g_nKeyStates[KEY_LSHIFT])||(g_nKeyStates[KEY_RSHIFT]))
+	{
+		asc=(int)sc;
+		if ((asc>=97)&&(asc<=122))
+		{
+			return asc - 32;
+		}
+		else
+		{
+			switch(asc)
+			{
+				case 35:
+				case 36:
+				case 37:
+				case 38:
+					asc+=16;
+					break;
+				case 49:
+					asc=33;
+					break;
+				case 50:
+					asc=64;
+					break;
+				case 55:
+					asc=94;
+					break;
+				case 56:
+					asc=42;
+					break;
+				case 57:
+					asc=40;
+					break;
+				case 48:
+					asc=41;
+					break;
+				case 59:
+					asc=58;
+					break;
+				case 91:
+				case 92:
+				case 93:
+					asc+=32;
+					break;
+			}
+		}
+	}
+
+	return (BYTE)asc;
 }
 
 void KeyboardInstall()
