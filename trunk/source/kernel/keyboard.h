@@ -176,6 +176,8 @@ BOOL GetKeyState(UINT key);
 
 //! Returns the state of the every key in a 256-byte buffer.
 void GetKeyboardState(BYTE *buff);
-BYTE TranslateScanCode(UINT code);
+
+//! Returns the character representation of the given scan code. It takes shift into account.
+BYTE TranslateScancode(UINT code);
 
 #endif
