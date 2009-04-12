@@ -66,7 +66,7 @@ void ConsolePutch(unsigned char c)
 	} else if (c == '\n') { // new line / line feed
 		_console_x = 0;
 		_console_y++;
-	} else if (c >= ' ') { // normal character
+	} else { // normal character
 		unsigned short *where = _videomem + (_console_y * 80 + _console_x);
 		*where = c | (_console_attrib << 8);
 		_console_x++;
