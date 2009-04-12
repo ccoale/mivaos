@@ -7,19 +7,19 @@
 //! GDT entry structure
 struct gdt_entry
 {
-    unsigned short limit_low;
-    unsigned short base_low;
-    unsigned char base_middle;
-    unsigned char access;
-    unsigned char granularity;
-    unsigned char base_high;
+    WORD limit_low;
+    WORD base_low;
+    BYTE base_middle;
+    BYTE access;
+    BYTE granularity;
+    BYTE base_high;
 } __attribute__((packed));
 
 //! GDT pointer structure
 struct gdt_ptr
 {
-	unsigned short limit;
-	unsigned int base;
+	WORD limit;
+	DWORD base;
 } __attribute__((packed));
 
 //! Global GDT entries
@@ -29,7 +29,7 @@ struct gdt_entry gdt[3];
 struct gdt_ptr gp;
 
 //! Installs a descriptor in the GDT
-void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran)
+void gdt_set_gate(int num, DWORD base, DWORD limit, BYTE access, BYTE gran)
 {
     /* Setup the descriptor base address */
     gdt[num].base_low = (base & 0xFFFF);
