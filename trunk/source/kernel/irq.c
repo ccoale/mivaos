@@ -86,13 +86,14 @@ void IrqHandler(struct regs *r)
 {
     // handler function
     void (*handler)(struct regs*);
-    
+
     // do we have a handler to run?
     handler = IrqRoutines[r->int_no - 32];
     if (handler)
     {
         handler(r);
     }
+
 
     // EOI to the slave
     if (r->int_no >= 40)

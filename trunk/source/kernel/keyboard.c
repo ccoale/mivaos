@@ -5,6 +5,8 @@
 
 #define SCANCODETOCHAR(x) ( (US_SC[x]) )
 
+BYTE g_nKeyStates[256] = {0};
+
 BYTE US_SC[128]=
 {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
@@ -48,12 +50,31 @@ BYTE US_SC[128]=
 void KeyboardHandler(struct regs *r)
 {
 	BYTE sc = _inportb(0x60);
-
-	ConsolePutch(SCANCODETOCHAR(sc));
+	if ((sc & 0x80))
+	{
+		g_nKeyStates[sc & ~0x80] = 0;
+	}
+	else
+	{
+		g_nKeyStates[sc] = 1;
+	}
 }
 
 void KeyboardInstall()
 {
-	ConsolePuts("registering video.\n");
+	ConsolePuts("Registering Keyboard.\n");
 	IrqInstallHandler(1,KeyboardHandler);
+}
+
+//! Returns the state of the specified scan code.
+UINT GetKeyState(UINT key)
+{
+	return g_nKeyStates[key];
+}
+
+//! Returns the state of the every key in a 256-byte buffer.
+void GetKeyboardState(BYTE *buff)
+{
+	// copy the keyboard state buffer...
+	_memcpy((void *)buff, (void *)&g_nKeyStates, 256);
 }
