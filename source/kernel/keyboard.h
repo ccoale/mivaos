@@ -168,5 +168,13 @@ Only supports US so far, more will be added.
 #define KEY_PGDN            KEY_NEXT            /* PgDn on arrow keypad */
 #define KEY_CIRCUMFLEX      KEY_PREVTRACK       /* Japanese keyboard */
 
+//! Installs the keyboard IRQ
 void KeyboardInstall();
+
+//! Returns the state of the specified scan code.
+UINT GetKeyState(UINT key);
+
+//! Returns the state of the every key in a 256-byte buffer.
+void GetKeyboardState(BYTE *buff);
+
 #endif

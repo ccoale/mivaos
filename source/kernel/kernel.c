@@ -14,7 +14,7 @@ void kmain(void* mbd,unsigned int magic)
 	IsrsInstall(); // setup isrs
 	IrqInstall(); // setup irq
 	TimerInstall(100); // setup our timer..
-KeyboardInstall();
+	KeyboardInstall();
 
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 
@@ -22,6 +22,8 @@ KeyboardInstall();
 	DWORD start = GetTickCount();
 	while (1) 
 	{
-		
+		if (GetKeyState(KEY_3)) {
+			ConsolePuts("You pressed 3!\n");
+		}
 	}
 } 
