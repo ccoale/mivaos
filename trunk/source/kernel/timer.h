@@ -4,7 +4,7 @@
 #include "irq.h"
 
 //! Installs the timer.. (hz = number clocks per second)
-void timer_install(int hz);
+void TimerInstall(int hz);
 
 //! Gets the current "tick count"
 DWORD GetTickCount();

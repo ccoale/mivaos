@@ -6,8 +6,8 @@ extern gp ;GDT pointer
 extern idtp ;IDT pointer
 extern kmain ; Kernel entry point
 
-global gdt_flush ; flushes the GDT
-global idt_load ; loads the IDT
+global GdtFlush ; flushes the GDT
+global IdtLoad ; loads the IDT
 
 ALIGN 4
 mboot:
@@ -29,7 +29,7 @@ loader:
 	call kmain
 	jmp $
 
-gdt_flush:
+GdtFlush:
 	lgdt [gp]
 	mov ax, 0x10 ;Load GDT using our "global gdt pointer"
 	mov ds, ax
@@ -41,7 +41,7 @@ gdt_flush:
 flush2:
 	ret ;return from function
 
-idt_load:
+IdtLoad:
 	lidt[idtp]
 	ret
 
@@ -299,7 +299,7 @@ _isr31:
 
 
 ; This function is called (in the kernel) when a fault occurs.
-extern fault_handler
+extern FaultHandler
 
 ; This is a common label for all ISRs. The process state is saved and pushed onto the stack,
 ; then the ISR fault handler is called.
@@ -316,7 +316,7 @@ isr_common_stub:
     mov gs, ax
     mov eax, esp
     push eax
-    mov eax, fault_handler
+    mov eax, FaultHandler
     call eax
     pop eax
     pop gs
@@ -456,7 +456,7 @@ _irq15:
     push byte 47
     jmp irq_common_stub
 
-extern irq_handler
+extern IrqHandler
 
 irq_common_stub:
     pusha
@@ -473,7 +473,7 @@ irq_common_stub:
     mov eax, esp
 
     push eax
-    mov eax, irq_handler
+    mov eax, IrqHandler
     call eax
     pop eax
 

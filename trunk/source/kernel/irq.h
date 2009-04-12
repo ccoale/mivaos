@@ -4,15 +4,15 @@
 #include "isrs.h"
 
 // Installs a handler for the given IRQ number.
-void irq_install_handler(int irq, void (*handler)(struct regs *r));
+void IrqInstallHandler(int irq, void (*handler)(struct regs *r));
 
 // Uninstalls a handler for the given IRQ number.
-void irq_uninstall_handler(int irq);
+void IrqUninstallHandler(int irq);
 
 // Remaps the IRQs
-void irq_remap(void);
+void IrqRemap(void);
 
 // Installs our IRQs
-void irq_install();
+void IrqInstall();
 
 #endif /* __IRQ_H */

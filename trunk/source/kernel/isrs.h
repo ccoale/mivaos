@@ -12,7 +12,7 @@ struct regs
 };
 
 //! Installs all of the first 32 ISRs.
-void isrs_install();
+void IsrsInstall();
 
 #endif /* __ISRS_H */
 

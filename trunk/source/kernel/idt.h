@@ -5,7 +5,7 @@ interupt descripter table API
 #define __IDT_H
 #include "types.h"
 
-void idt_set_gate(BYTE num, DWORD base, WORD sel, BYTE flags);
-void idt_install(void);
+void IdtSetGate(BYTE num, DWORD base, WORD sel, BYTE flags);
+void IdtInstall(void);
 
 #endif

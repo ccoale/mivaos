@@ -3,20 +3,22 @@
 **
 */
 #include "timer.h"
+#include "video.h"
 
 // The global "tick count".
 DWORD _tick_count = 0;
 
-void timer_handler(struct regs *r) 
+void TimerHandler(struct regs *r) 
 {
 	_tick_count++;
 }
 
 //! Installs the timer.. (hz = number clocks per second)
-void timer_install(int hz)
+void TimerInstall(int hz)
 {
+ConsolePuts("Registering timer.\n");
 	// IRQ0 == timer
-	irq_install_handler(0, timer_handler);
+	IrqInstallHandler(0, TimerHandler);
 	
 	// set timer
 	int div = 1193180 / hz;
