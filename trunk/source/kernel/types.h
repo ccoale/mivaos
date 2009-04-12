@@ -15,6 +15,8 @@ typedef USHORT WORD;
 typedef unsigned long ULONG;
 typedef ULONG DWORD;
 typedef unsigned int UINT;
+typedef void *LPVOID;
+
 #define NULL 0x00
 
 #endif /* __TYPES_H */
