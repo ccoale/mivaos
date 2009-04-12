@@ -1,0 +1,11 @@
+All system calls are made through the 0x80 interrupt.
+
+eax = system call number
+ebx = param1
+ecx = param2
+edx = param3
+
+--------------------------
+System Calls table
+--------------------------
+
