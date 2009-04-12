@@ -7,6 +7,7 @@
 #include "memory.h"
 #include "types.h"
 
+//memory block flags
 //! The memory block is reserved and cannot be allocated
 #define MEMBLOCK_RESERVED	0x00
 
@@ -19,17 +20,16 @@
 //! Memory block data structure
 struct memory_block
 {
+	size_t length;
 	//! A pointer to the next memory block in the list.
-	memory_block *next;
+struct memory_block* next;
 
 	//! Flags (such as whether or not the block is in use)
-	BYTE flags;
+BYTE flags;
 
 	//! The starting address of the allocated memory
 	LPVOID base_address;
-
 	//! The length in bytes of the allocated memory
-	size_t length;
 } __attribute__ ((packed));
 
 //! Allocate the specified number of bytes, and returns a pointer to the newly allocated data.
