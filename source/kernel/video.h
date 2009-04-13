@@ -41,5 +41,14 @@ void ConsolePuts(const char *str);
 //! Sets the text attributes for the console
 void ConsoleSetcolor(unsigned char fore, unsigned char back);
 
+/* the integer D to a string and save the string in BUF. If
+        BASE is equal to 'd', interpret that D is decimal, and if BASE is
+        equal to 'x', interpret that D is hexadecimal. */
+void kitoa (char *buf, int base, int d);
+
+     /* Format a string and print it on the screen, just like the libc
+        function printf. */
+void kprintf (const char *format, ...);
+
 #endif /* __VIDEO_H */
 
