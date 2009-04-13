@@ -139,14 +139,6 @@ void IsrsInstall()
 */
 void FaultHandler(struct regs *r)
 {
-	kprintf("int_no = %d\n", r->int_no);
-	if (r->int_no < 0)
-	{ 
-		kprintf("int_no = %d", r->int_no);
-		r->int_no *= -1;
-		kprintf(", new int_no = %d\n", r->int_no);
-	}
-
 	if (r->int_no < 32)
 	{
 		ConsolePuts(exception_messages[r->int_no]);
@@ -155,7 +147,6 @@ void FaultHandler(struct regs *r)
 	}
 	else if (r->int_no == 128)
 	{
-		kprintf("Step 1...\n");
 		SystemCallHandler(r);
 	}
 }
