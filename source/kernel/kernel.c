@@ -8,7 +8,7 @@
 
 void kmain(void* mbd,unsigned int magic)
 {
-struct multiBootInfo *boot=(struct multiBootInfo*)mbd;
+struct MULTI_BOOT_INFO *boot=(struct MULTI_BOOT_INFO*)mbd;
 	ConsoleCls();
 ConsolePuts("              __  __\n");
 ConsolePuts(" /|/| \'   _  /  )(\n");
@@ -26,7 +26,6 @@ kprintf("Booting with %d KB lowmem and %d kb highmem.\n",boot->lowmem,boot->high
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 
 	DWORD start = 0;
-	kprintf("The address of variable 'start' is at: %d.\n", &start);
 
 	while (1)
 	{
