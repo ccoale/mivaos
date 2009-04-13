@@ -40,6 +40,8 @@ void SetupSystemCalls()
 	SystemCallInstall(0x00000001, SysCall_ConsolePutch);
 	SystemCallInstall(0x00000002, SysCall_ConsolePuts);
 	SystemCallInstall(0x00000003, SysCall_GetBootHeader);
+	SystemCallInstall(0x00000004, SysCall_TimerGetTime);
+	SystemCallInstall(0x00000005, SysCall_TimerGetTicks);
 	ConsolePuts(" success!\n");
 }
 
