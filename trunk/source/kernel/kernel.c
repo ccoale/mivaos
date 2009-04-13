@@ -6,27 +6,31 @@
 #include "keyboard.h"
 #include "boot.h"
 #include "syscalls.h"
+#include "timer.h"
 
 // makes our pretty ascii logo :)
 void OutputAsciiHeader()
 {
+	ConsoleSetColor(COLOR_LBLUE, COLOR_BLACK);
 	ConsolePuts(" ____    ____   _                   ___     ______   \n");
 	ConsolePuts("|_   \\  /   _| (_)                .'   `. .' ____ \\  \n");
 	ConsolePuts("  |   \\/   |   __  _   __  ,--.  /  .-.  \\| (___ \\_| \n");
 	ConsolePuts("  | |\\  /| |  [  |[ \\ [  ]`'_\\ : | |   | | _.____`.  \n");
 	ConsolePuts(" _| |_\\/_| |_  | | \\ \\/ / // | |,\\  `-'  /| \\____) | \n");
 	ConsolePuts("|_____||_____|[___] \\__/  \'-;__/ `.___.'  \\______.' \n");
+	ConsoleSetColor(COLOR_WHITE, COLOR_BLACK);
 }
 
 void kmain(void* mbd,unsigned int magic)
 {
+	struct MULTIBOOT_INFO bootInfo;
 	InitBootData(mbd);
-
+	GetBootInfo(&bootInfo);
 	ConsoleCls();
 	OutputAsciiHeader();
 	ConsolePuts("\nMivaOS written by Chris Coale <chris95219@gmail.com) and Tyler Littlefield <tyler@tysdomain.com>.\n");
 	ConsolePuts("MivaOS (kernel 0.0.1) Loading...\n");
-	//kprintf("Booting with %d KB lower memory and %d KB upper memory...\n",boot->lowmem,boot->highmem);
+	kprintf("Booting with %d KB lower memory and %d KB upper memory...\n",bootInfo.lowmem,bootInfo.highmem);
 	GdtInstall(); // setup gdt...
 	IdtInstall(); // setup idt...
 	IsrsInstall(); // setup isrs...			
@@ -34,6 +38,11 @@ void kmain(void* mbd,unsigned int magic)
 	TimerInstall(100); // setup our timer...
 	KeyboardInstall(); // setup our keyboard driver...
 	SetupSystemCalls(); // setup our basic system calls...
+	
+	struct DATE_TIME tm;
+	TimerGetTime(&tm);
+	kprintf("Today is: %d/%d/%d and it is currently %d:%d:%d!\n", tm.month, tm.day, tm.year,
+		tm.hour, tm.min, tm.sec);
 
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 

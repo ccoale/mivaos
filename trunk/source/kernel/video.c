@@ -92,7 +92,7 @@ void ConsolePuts(const char *str)
 }
 
 //! Sets the text attributes for the console
-void ConsoleSetcolor(unsigned char fore, unsigned char back)
+void ConsoleSetColor(unsigned char fore, unsigned char back)
 {
 	_console_attrib = (back << 4) | (fore & 0x0F);
 }
