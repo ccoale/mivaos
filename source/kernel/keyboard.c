@@ -188,6 +188,7 @@ BYTE TranslateScancode(UINT code)
 
 void KeyboardInstall()
 {
-	ConsolePuts("Registering Keyboard.\n");
+	ConsolePuts("Loading default keyboard driver...");
 	IrqInstallHandler(1,KeyboardHandler);
+	ConsolePuts(" success!\n");
 }

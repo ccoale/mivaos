@@ -16,7 +16,7 @@ void TimerHandler(struct regs *r)
 //! Installs the timer.. (hz = number clocks per second)
 void TimerInstall(int hz)
 {
-ConsolePuts("Registering timer.\n");
+	ConsolePuts("Loading system timer...");
 	// IRQ0 == timer
 	IrqInstallHandler(0, TimerHandler);
 	
@@ -25,6 +25,7 @@ ConsolePuts("Registering timer.\n");
 	_outportb(0x43, 0x36); // command
 	_outportb(0x40, div & 0xFF); // low byte of div
 	_outportb(0x30, div >> 8); // hi byte of div
+	ConsolePuts(" success!\n");
 }
 
 //! Gets the current "tick count".

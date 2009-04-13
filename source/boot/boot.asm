@@ -78,6 +78,7 @@ global _isr28
 global _isr29
 global _isr30
 global _isr31
+global _isr128
 
 ;  0: Divide By Zero Exception
 _isr0:
@@ -297,6 +298,12 @@ _isr31:
     push byte 31
     jmp isr_common_stub
 
+; 128: System Call interrupt
+_isr128:
+    cli
+    push byte 0
+    push byte 128
+    jmp isr_common_stub
 
 ; This function is called (in the kernel) when a fault occurs.
 extern FaultHandler
