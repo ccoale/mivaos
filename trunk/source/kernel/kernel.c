@@ -19,16 +19,11 @@ void kmain(void* mbd,unsigned int magic)
 
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 
+	DWORD start = 0;
+	kprintf("The address of variable 'start' is at: %d.\n", &start);
 
 	while (1)
 	{
-		int i = 0;
-		for (i = 0; i < 256; i++)
-		{
-			if (GetKeyState(i))
-			{
-				ConsolePutch((char)TranslateScancode(i));
-			}
-		}
+		
 	}
 } 
