@@ -4,7 +4,7 @@
 #include "irq.h"
 #include "video.h"
 
-// Custom IRQs
+// Custom IRQs for exceptions
 extern void _irq0();
 extern void _irq1();
 extern void _irq2();
@@ -23,10 +23,11 @@ extern void _irq14();
 extern void _irq15();
 
 // Array of IRQ function pointers
-void *IrqRoutines[16] =
-{
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0
+void *IrqRoutines[16] = { 
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	0, 0, 0, 0 
 };
 
 // Installs a handler for the given IRQ number.
@@ -59,7 +60,7 @@ void IrqRemap(void)
 // Installs our IRQs
 void IrqInstall()
 {
-ConsolePuts("Installing IRQ.\n");
+	ConsolePuts("Loading IRQs...");
     IrqRemap();
 
     IdtSetGate(32, (unsigned)_irq0, 0x08, 0x8E);
@@ -79,6 +80,8 @@ ConsolePuts("Installing IRQ.\n");
     IdtSetGate(45, (unsigned)_irq13, 0x08, 0x8E);
     IdtSetGate(46, (unsigned)_irq14, 0x08, 0x8E);
     IdtSetGate(47, (unsigned)_irq15, 0x08, 0x8E);
+
+	ConsolePuts(" success!\n");
 }
 
 // Process an INTERRUPT REQUEST. When finished, sends an EOI (end of interrupt) command to 0x20.

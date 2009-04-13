@@ -5,6 +5,7 @@
 #include "irq.h"
 #include "keyboard.h"
 #include "boot.h"
+#include "syscalls.h"
 
 // makes our pretty ascii logo :)
 void OutputAsciiHeader()
@@ -17,6 +18,11 @@ void OutputAsciiHeader()
 	ConsolePuts("|_____||_____|[___] \\__/  \'-;__/ `.___.'  \\______.' \n");
 }
 
+void myTestSysCall(struct regs *r)
+{
+	ConsolePuts("Hello world, I'm a system call!");
+}
+
 void kmain(void* mbd,unsigned int magic)
 {
 	struct MULTI_BOOT_INFO *boot=(struct MULTI_BOOT_INFO*)mbd;
@@ -27,15 +33,21 @@ void kmain(void* mbd,unsigned int magic)
 	kprintf("Booting with %d KB lower memory and %d KB upper memory...\n",boot->lowmem,boot->highmem);
 	GdtInstall(); // setup gdt
 	IdtInstall(); // setup idt
-	IsrsInstall(); // setup isrs
+	IsrsInstall(); // setup isrs			
 	IrqInstall(); // setup irq
 	TimerInstall(100); // setup our timer..
-	KeyboardInstall();
+	KeyboardInstall(); // setup our keyboard driver
 
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 
 
 	DWORD start = 0;
+
+	SystemCallInstall(0, myTestSysCall);
+
+	// lets call our interrupt to test
+	__asm__ __volatile__ ("movl $0, %eax");
+	__asm__ __volatile__ ("int $128");
 
 	while (1)
 	{

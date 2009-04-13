@@ -7,7 +7,7 @@ struct regs
 {
     DWORD gs, fs, es, ds;      /* pushed the segs last */
     DWORD edi, esi, ebp, esp, ebx, edx, ecx, eax;  /* pushed by 'pusha' */
-    DWORD int_no, err_code;    /* our 'push byte #' and ecodes do this */
+    BYTE int_no, err_code;    /* our 'push byte #' and ecodes do this */
     DWORD eip, cs, eflags, useresp, ss;   /* pushed by the processor automatically */ 
 };
 
