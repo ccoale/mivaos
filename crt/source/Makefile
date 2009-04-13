@@ -1,9 +1,6 @@
 CC= gcc
 CFLAGS= -nostdlib -nostartfiles -nodefaultlibs
-AS=nasm
-A_FLAGS= -f elf
-L_FLAGS=
-OUTPUT = libc.a
+OUTPUT = ../lib/libc.a
 O_FILES	= abort.o abs.o atof.o atoi.o atol.o bsearch.o ctype.o div.o getenv.o mblen.o mbstowcs.o mbtowc.o qsort.o rand.o strtod.o strtol.o wcstombs.o wctomb.o errno.o
 all:	$(O_FILES) $(A_FILES)
 	@rm -f $(OUTPUT)
