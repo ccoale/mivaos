@@ -82,6 +82,7 @@ void KeyboardHandler(struct regs *r)
 	else
 	{
 		g_nKeyStates[sc] = 1;
+if ((g_nKeyStates[KEY_LWIN])||(g_nKeyStates[KEY_RWIN])) ConsolePuts("Windows? WTF do you think this is!\n");
 	}
 }
 

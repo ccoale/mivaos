@@ -10,19 +10,7 @@ Our boot structures
 #define BOOT_FLAGS 0x00000003
 #define BOOTLOADER_MAGIC 0x2BADB002
 #define STACK_SIZE 0x4000
-struct multiBootHeader
-{
-DWORD magic;
-DWORD flags;
-DWORD checksum;
-DWORD headAddress;
-DWORD loadAddress;
-DWORD loadEndAddress;
-DWORD bssEndAddress;
-DWORD entryAddress;
-};
-
-struct elfHeader
+struct ELF_HEADER
 {
 DWORD num;
 DWORD size;
@@ -30,7 +18,7 @@ DWORD address;
 DWORD shndx;
 };
 
-struct multiBootInfo
+struct MULTI_BOOT_INFO
 {
 DWORD flags;
 DWORD lowmem;
@@ -39,7 +27,7 @@ DWORD bootDevice;
 DWORD commandLine;
 DWORD modules;
 DWORD modulesAddress;
-struct elfHeader elf;
+struct ELF_HEADER elf;
 DWORD mapLength;
 DWORD mapAddress;
 };
