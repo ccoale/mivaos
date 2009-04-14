@@ -7,6 +7,7 @@
 #include "boot.h"
 #include "syscalls.h"
 #include "timer.h"
+#include "mm.h"
 
 // makes our pretty ascii logo :)
 void OutputAsciiHeader()
@@ -41,7 +42,7 @@ void kmain(void* mbd,unsigned int magic)
 	
 	struct DATE_TIME tm;
 	TimerGetTime(&tm);
-	kprintf("Today is: %d/%d/%d and it is currently %d:%d:%d!\n", tm.month, tm.day, tm.year,
+	kprintf("Today is %d/%d/%d and it is currently %d:%d:%d!\n", tm.month, tm.day, tm.year,
 		tm.hour, tm.min, tm.sec);
 
 	// allows us to use our IRQs

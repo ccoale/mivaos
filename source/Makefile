@@ -4,8 +4,8 @@ AS=nasm
 A_FLAGS= -f elf
 L_FLAGS=
 OUTPUT =../bin/kernel.bin
-O_FILES	= kernel/keyboard.o kernel/memory.o kernel/video.o kernel/idt.o kernel/gdt.o kernel/kernel.o kernel/isrs.o kernel/irq.o kernel/timer.o kernel/syscalls.o kernel/boot.o
-O_FILES_L = keyboard.o memory.o video.o gdt.o kernel.o idt.o isrs.o irq.o timer.o syscalls.o boot.o
+O_FILES	= kernel/keyboard.o kernel/memory.o kernel/video.o kernel/idt.o kernel/gdt.o kernel/kernel.o kernel/isrs.o kernel/irq.o kernel/timer.o kernel/syscalls.o kernel/boot.o kernel/mm.o
+O_FILES_L = keyboard.o memory.o video.o gdt.o kernel.o idt.o isrs.o irq.o timer.o syscalls.o boot.o mm.o
 A_FILES= boot/boot.o
 all:	$(O_FILES) $(A_FILES)
 	@rm -f $(OUTPUT)
