@@ -17,7 +17,7 @@ blocks.
 */
 
 //! The number of blocks per byte (DO NOT CHANGE!)
-#define MEMMGR_BLOCKS_PER_BYTE		0x08
+#define MEMMGR_BLOCKS_PER_BYTE		8
 
 //! The number of bytes in 1 block (changeable, but recommended to stay the same for paging)
 #define MEMMGR_BLOCK_SIZE		4096 // 4KB
@@ -26,10 +26,10 @@ blocks.
 #define MEMMGR_BLOCK_ALIGN		MEMMGR_BLOCK_SIZE
 
 //! IN USE status for a memory block
-#define MEMMGR_STATUS_INUSE	0x1
+#define MEMMGR_STATUS_INUSE		1
 
 //! FREE status for a memory block
-#define MEMMGR_STATUS_FREE	0x0
+#define MEMMGR_STATUS_FREE		0
 
 //! Out of blocks error
 #define MEMMGR_ERROR_OUTOFBLOCKS	((DWORD)-1)
@@ -65,5 +65,31 @@ LPVOID MemMgrAllocBlock();
 
 //! Frees an allocated block
 void MemMgrFreeBlock(LPVOID mem);
+
+//! Finds the next block of memory based on the number of blocks
+DWORD MemMgrGetFreeBlockSize(DWORD sz);
+
+//! Allocates multiple blocks of memory
+LPVOID MemMgrAllocBlocks(DWORD ct);
+
+//! Frees multiple blocks of memory
+void MemMgrFreeBlocks(LPVOID p, DWORD ct);
+
+//! Enables paging
+void MemMgrEnablePaging();
+
+//! Disables paging
+void MemMgrDisablePaging();
+
+//! Gets whether or not paging is enabled
+BOOL MemMgrIsPaging();
+
+//! Loads the Page Directory Base Register
+void MemMgrLoadPDBR(LPVOID base_addr);
+
+//! Gets the Page Directory Base Register
+LPVOID MemMgrGetPDBR();
+
+
 
 #endif /* _INC_MM_H */

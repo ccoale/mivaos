@@ -19,18 +19,42 @@ struct ELF_HEADER
 	DWORD shndx;
 };
 
+struct MULTIBOOT_HEADER
+{
+	DWORD magic;
+	DWORD flags;
+	DWORD checksum;
+	DWORD header_addr;
+	DWORD load_addr;
+	DWORD load_end_addr;
+	DWORD bss_end_addr;
+	DWORD entry_addr;
+};
+
 struct MULTIBOOT_INFO
 {
 	DWORD flags;
-	DWORD lowmem;
-	DWORD highmem;
-	DWORD bootDevice;
-	DWORD commandLine;
-	DWORD modules;
-	DWORD modulesAddress;
+	DWORD mem_lower;
+	DWORD mem_upper;
+	DWORD boot_device;
+	DWORD cmdline;
+	DWORD mods_count;
+	DWORD mods_addr;
 	struct ELF_HEADER elf;
-	DWORD mapLength;
-	DWORD mapAddress;
+	DWORD map_length;
+	DWORD map_addr;
+	DWORD drives_length;
+	DWORD drives_addr;
+	DWORD config_table;
+	DWORD boot_loader_name;
+	DWORD apm_table;
+	DWORD vbe_control_info;
+	DWORD vbe_mode_info;
+	USHORT vbe_mode;
+	USHORT vbe_interface_seg;
+	USHORT vbe_interface_off;
+	USHORT vbe_interface_len;
+	
 };
 
 //! Initializes the boot data by maybe a copy of the data and putting it in the global multiboot header
