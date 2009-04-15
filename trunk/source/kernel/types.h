@@ -16,6 +16,10 @@ typedef unsigned long ULONG;
 typedef ULONG DWORD;
 typedef unsigned int UINT;
 typedef void *LPVOID;
+typedef unsigned long long int UINT64;
+
+#define TRUE	1
+#define FALSE	0
 
 #define NULL 0x00
 

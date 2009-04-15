@@ -8,6 +8,7 @@
 #include "syscalls.h"
 #include "timer.h"
 #include "mm.h"
+#include "paging.h"
 
 // makes our pretty ascii logo :)
 void OutputAsciiHeader()
@@ -31,7 +32,7 @@ void kmain(void* mbd,unsigned int magic)
 	OutputAsciiHeader();
 	ConsolePuts("\nMivaOS written by Chris Coale <chris95219@gmail.com) and Tyler Littlefield <tyler@tysdomain.com>.\n");
 	ConsolePuts("MivaOS (kernel 0.0.1) Loading...\n");
-	kprintf("Booting with %d KB lower memory and %d KB upper memory...\n",bootInfo.lowmem,bootInfo.highmem);
+	kprintf("Booting with %d KB lower memory and %d KB upper memory...\n", bootInfo.mem_lower, bootInfo.mem_upper);
 	GdtInstall(); // setup gdt...
 	IdtInstall(); // setup idt...
 	IsrsInstall(); // setup isrs...			
@@ -39,6 +40,9 @@ void kmain(void* mbd,unsigned int magic)
 	TimerInstall(100); // setup our timer...
 	KeyboardInstall(); // setup our keyboard driver...
 	SetupSystemCalls(); // setup our basic system calls...
+	VirtMemMgrInitialize();
+	//MemMgrInit(bootInfo.mem_lower + bootInfo.mem_upper, 0x100000);
+	
 	
 	struct DATE_TIME tm;
 	TimerGetTime(&tm);

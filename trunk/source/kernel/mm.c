@@ -4,6 +4,7 @@
 */
 #include "mm.h"
 #include "memory.h"
+#include "types.h"
 
 static DWORD _memmgr_memsize = 0;
 static DWORD _memmgr_usedblocks = 0;
@@ -126,5 +127,122 @@ void MemMgrFreeBlock(LPVOID mem)
 	
 	MemMgrSetBlockStatus(frame, MEMMGR_STATUS_FREE);
 	_memmgr_usedblocks--;
+}
+
+//! Finds the next block of memory based on the size
+DWORD MemMgrGetFreeBlockSize(DWORD size)
+{
+	if (size==0) return MEMMGR_ERROR_OUTOFBLOCKS;
+	if (size==1) return MemMgrGetFreeBlock(); // only 1 block requested
+	DWORD count = MemMgrGetFreeBlockCount();
+	DWORD i;
+	for (i = 0; i < count; i++) 
+	{
+		if (_memmgr_memmap[i] != 0xffffffff)
+		{
+			int j;
+			for (j=0; j<32; j++) 
+			{	
+				// test each bit in the dword
+				int bit = 1 << j;
+				if (! (_memmgr_memmap[i] & bit) ) 
+				{
+					int startingBit = i * 32;
+					startingBit += bit; //get the free bit in the dword at index i
+
+					DWORD free = 0; //loop through each bit to see if its enough space
+					DWORD c;
+					for (c = 0; c <= size; c++) 
+					{
+						if (! MemMgrGetBlockStatus(startingBit+count) )
+							free++;	// this bit is clear (free frame)
+
+						if (free == size)
+							return i*4*8+j; //free count==size needed; return index
+					}
+				}
+			}
+		}
+	}
+
+	return MEMMGR_ERROR_OUTOFBLOCKS;
+}
+
+//! Allocates multiple blocks of memory
+LPVOID MemMgrAllocBlocks(DWORD ct)
+{
+	if (MemMgrGetFreeBlockCount() <= 0)
+		return NULL; // out of memory
+
+	DWORD frame = MemMgrGetFreeBlockSize(ct);
+	if (frame == MEMMGR_ERROR_OUTOFBLOCKS)
+		return NULL;
+
+	// set each block
+	DWORD i;
+	for (i = 0; i < ct; i++)
+		MemMgrSetBlockStatus(frame + i, MEMMGR_STATUS_INUSE);
+
+	// now we need to return the physical address
+	DWORD addr = frame * MEMMGR_BLOCK_SIZE;
+	_memmgr_usedblocks += ct;
+
+	return (LPVOID)addr;
+}
+
+//! Frees multiple blocks of memory
+void MemMgrFreeBlocks(LPVOID p, DWORD ct)
+{
+	DWORD addr = (DWORD)p;
+	int frame = addr / MEMMGR_BLOCK_SIZE;
+
+	DWORD i;
+	for (i = 0; i < ct; i++) MemMgrSetBlockStatus(frame + i, MEMMGR_STATUS_FREE);
+
+	_memmgr_usedblocks -= ct;
+}
+
+//! Enables paging
+void MemMgrEnablePaging()
+{
+	__asm__ __volatile__ ("movl %cr0, %eax;");
+	__asm__ __volatile__ ("or $0x80000000, %eax;"); // set bit 31
+	__asm__ __volatile__ ("movl %eax, %cr0;");
+}
+
+//! Disables paging
+void MemMgrDisablePaging()
+{
+	__asm__ __volatile__ ("movl %cr0, %eax;");
+	__asm__ __volatile__ ("and $0x7FFFFFFF, %eax;"); // clear bit 31
+	__asm__ __volatile__ ("movl %eax, %cr0;");
+}
+
+//! Gets whether or not paging is enabled
+BOOL MemMgrIsPaging()
+{
+	DWORD res = 0;
+	__asm__ __volatile__ ("movl %cr0, %eax;");
+	__asm__ __volatile__ ("movl %%eax, %0;" : "=r"(res));
+
+	return (res & 0x80000000) ? FALSE : TRUE;
+}
+
+//! Loads the Page Directory Base Register
+void MemMgrLoadPDBR(LPVOID base_addr)
+{
+	DWORD addr = (DWORD)base_addr;
+	__asm__ __volatile__ ("movl %0, %%eax;" : "=r"(addr));
+	__asm__ __volatile__ ("movl %eax, %cr0;");
+}
+
+//! Gets the Page Directory Base Register
+LPVOID MemMgrGetPDBR()
+{
+	DWORD ret = 0;
+	__asm__ __volatile__ ("movl %cr0, %eax;");
+	__asm__ __volatile__ ("movl %%eax, %0;" : "=r"(ret));
+
+	return (LPVOID)ret;
 }
 
