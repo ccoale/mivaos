@@ -35,10 +35,10 @@ void IdtSetGate(BYTE num, DWORD base, WORD sel, BYTE flags)
 
 void IdtInstall(void)
 {
-	ConsolePuts("Loading IDT...");
+//	ConsolePuts("Loading IDT...");
 	idtp.limit=((sizeof(struct idt_entry)*256)-1);
 	idtp.base=(UINT)&idt;
 	_memset(&idt,0,(sizeof(struct idt_entry)*256));
 	IdtLoad();
-	ConsolePuts(" success!\n");
+//	ConsolePuts(" success!\n");
 }

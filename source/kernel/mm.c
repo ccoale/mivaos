@@ -11,6 +11,16 @@ static DWORD _memmgr_usedblocks = 0;
 static DWORD _memmgr_maxblocks = 0;
 static DWORD* _memmgr_memmap = 0;
 
+// Friendly names for memory types
+//! different memory regions (in memory_region.type)
+char* GSTR_MEMORY_TYPES[] = {
+
+	"Available",			//memory_region.type==0
+	"Reserved",			//memory_region.type==1
+	"ACPI Reclaim",			//memory_region.type==2
+	"ACPI NVS Memory"		//memory_region.type==3
+};
+
 //! Initializes the memory manager. 
 //! size - the number of bytes of memory we have to work with
 //! bitmap - a pointer to the location of the bitmap. THIS LOCATION MUST NOT BE CHANGED!
