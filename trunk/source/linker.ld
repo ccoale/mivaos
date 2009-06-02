@@ -3,6 +3,8 @@ ENTRY (loader)
 SECTIONS{
     . = 0x00100000;
 
+    kernelBegin = .;
+
     .text :{
         *(.text)
     }
@@ -21,5 +23,7 @@ SECTIONS{
         *(.bss)
         ebss = .;
     }
+
+    kernelEnd = .;
 }
 
