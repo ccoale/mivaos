@@ -35,14 +35,14 @@ void SystemCallHandler(struct regs *r)
 //! Setup system calls
 void SetupSystemCalls()
 {
-	ConsolePuts("Loading system calls...");
+//	ConsolePuts("Loading system calls...");
 	SystemCallInstall(0x00000000, SysCall_DebugMessage);
 	SystemCallInstall(0x00000001, SysCall_ConsolePutch);
 	SystemCallInstall(0x00000002, SysCall_ConsolePuts);
 	SystemCallInstall(0x00000003, SysCall_GetBootHeader);
 	SystemCallInstall(0x00000004, SysCall_TimerGetTime);
 	SystemCallInstall(0x00000005, SysCall_TimerGetTicks);
-	ConsolePuts(" success!\n");
+//	ConsolePuts(" success!\n");
 }
 
 // -- System call list --

@@ -49,7 +49,7 @@ void GdtSetGate(int num, DWORD base, DWORD limit, BYTE access, BYTE gran)
 //! Sets up our basic GDT by installing 3 entries in the GDT, and flushing the GDT.
 void GdtInstall()
 {
-	ConsolePuts("Loading GDT...");
+//	ConsolePuts("Loading GDT...");
 
 	/* Setup the GDT pointer and limit */
 	gp.limit = (sizeof(struct gdt_entry) * 3) - 1;
@@ -67,6 +67,6 @@ void GdtInstall()
 	// Flush out the old GDT and install the new changes!
 	GdtFlush();
 
-	ConsolePuts(" success!\n");
+//	ConsolePuts(" success!\n");
 }
 

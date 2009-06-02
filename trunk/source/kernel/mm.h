@@ -34,6 +34,20 @@ blocks.
 //! Out of blocks error
 #define MEMMGR_ERROR_OUTOFBLOCKS	((DWORD)-1)
 
+//! Structure format of a MEMORY_REGION
+struct MEMORY_REGION
+{
+	DWORD	dwStartLo;
+	DWORD	dwStartHi;
+	DWORD	dwSizeLo;
+	DWORD	dwSizeHi;
+	DWORD	dwType;
+	DWORD	dwACPI_3_0;
+};
+
+//! Memory Type strings
+extern char* GSTR_MEMORY_TYPES[];
+
 //! Initializes the memory manager. 
 //! size - the number of bytes of memory we have to work with
 //! bitmap - a pointer to the location of the bitmap. THIS LOCATION MUST NOT BE CHANGED!

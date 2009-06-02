@@ -90,7 +90,7 @@ extern void _isr128(); // system call
 //! Installs all of the first 32 ISRs. + system call ISR
 void IsrsInstall()
 {
-	ConsolePuts("Loading ISRs...");
+//	ConsolePuts("Loading ISRs...");
 
 	IdtSetGate(0, (unsigned)_isr0, 0x08, 0x8E);
 	IdtSetGate(1, (unsigned)_isr1, 0x08, 0x8E);
@@ -130,7 +130,7 @@ void IsrsInstall()
 	// system call interrupt
 	IdtSetGate(128, (unsigned)_isr128, 0x08, 0x08E);
 	
-	ConsolePuts(" success!\n");
+//	ConsolePuts(" success!\n");
 }
 
 /*

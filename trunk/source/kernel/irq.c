@@ -60,7 +60,7 @@ void IrqRemap(void)
 // Installs our IRQs
 void IrqInstall()
 {
-	ConsolePuts("Loading IRQs...");
+//	ConsolePuts("Loading IRQs...");
     IrqRemap();
 
     IdtSetGate(32, (unsigned)_irq0, 0x08, 0x8E);
@@ -81,7 +81,7 @@ void IrqInstall()
     IdtSetGate(46, (unsigned)_irq14, 0x08, 0x8E);
     IdtSetGate(47, (unsigned)_irq15, 0x08, 0x8E);
 
-	ConsolePuts(" success!\n");
+//	ConsolePuts(" success!\n");
 }
 
 // Process an INTERRUPT REQUEST. When finished, sends an EOI (end of interrupt) command to 0x20.
