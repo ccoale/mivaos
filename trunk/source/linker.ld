@@ -1,12 +1,14 @@
 ENTRY (loader)
 
-SECTIONS{
+SECTIONS
+{
     . = 0x00100000;
-
     kernelBegin = .;
 
     .text :{
+	stext = .;
         *(.text)
+	etext = .;
     }
 
     .rodata ALIGN (0x1000) : {
@@ -14,7 +16,9 @@ SECTIONS{
     }
 
     .data ALIGN (0x1000) : {
+	sdata = .;
         *(.data)
+	edata = .;
     }
 
     .bss : {
@@ -23,7 +27,6 @@ SECTIONS{
         *(.bss)
         ebss = .;
     }
-
     kernelEnd = .;
 }
 
