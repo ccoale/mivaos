@@ -5,6 +5,8 @@ jmp loader ;jmp to the "main loader" label
 extern gp ;GDT pointer
 extern idtp ;IDT pointer
 extern kmain ; Kernel entry point
+extern edata
+extern ebss
 
 global GdtFlush ; flushes the GDT
 global IdtLoad ; loads the IDT
@@ -21,6 +23,11 @@ mboot:
 	dd MAGIC
 	dd FLAGS
 	dd CHECKSUM
+	dd mboot ; header_addr
+	dd loader ; load_addr
+	dd edata ; load_end_addr
+	dd ebss ; bss_end_addr
+	dd loader ; entry_addr
 	STACKSIZE equ 0x4000
 
 loader:

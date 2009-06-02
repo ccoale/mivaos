@@ -44,7 +44,7 @@ void kmain(void* mbd,unsigned int magic)
 	KeyboardInstall(); // setup our keyboard driver...
 	SetupSystemCalls(); // setup our basic system calls...
 	VirtMemMgrInitialize();
-	kprintf("Kernel begin: %x\nKernel end: %x\nKernel length: %x\n", kernelBegin, kernelEnd, kernelEnd - kernelBegin);
+	kprintf("Kernel begin: %x\nKernel end: %x\nKernel length: %x\n", &kernelBegin, &kernelEnd, &kernelEnd - &kernelBegin);
 	//MemMgrInit(bootInfo.mem_lower + bootInfo.mem_upper, 0x100000);
 	
 	
