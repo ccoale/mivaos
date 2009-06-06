@@ -60,7 +60,7 @@ BOOL InitKernel(struct MULTIBOOT_INFO *info)
 
 	// Now we need to init our memory manager and set our regions
 	unsigned long int totalMemory = info->mem_lower + info->mem_upper; // in KB??
-	MemMgrInit(totalMemory, (LPVOID)kernelBegin);
+	MemMgrInit(totalMemory*1024, (LPVOID)kernelBegin);
 
 	// now we need to setup our memory regions...
 	struct MEMORY_REGION *region = (struct MEMORY_REGION *)0x1000; // NOT kernelBegin!!
@@ -78,13 +78,13 @@ BOOL InitKernel(struct MULTIBOOT_INFO *info)
 			region[i].dwStartLo, region[i].dwSizeHi, region[i].dwSizeLo, region[i].dwType,
 			GSTR_MEMORY_TYPES[region[i].dwType - 1]);
 
-		// if the region is avaiable, lets use it!
+		// if the region is available, lets use it!
 		if (region[i].dwType == 1) MemMgrCreateRegion((LPVOID)region[i].dwStartLo, region[i].dwSizeLo);
 	}
 
 	// make sure we deinit the region our kernel is in...
-	MemMgrDeleteRegion(&kernelBegin, (&kernelEnd - &kernelBegin) * 512);
-
+//	MemMgrDeleteRegion(&kernelBegin, (&kernelEnd - &kernelBegin) * 512);
+	
 	// display memory information to the user...
 	unsigned long int totalBlocks = MemMgrGetBlockCount();
 	unsigned long int freeBlocks = MemMgrGetFreeBlockCount();

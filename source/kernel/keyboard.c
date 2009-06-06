@@ -78,7 +78,7 @@ void KeyboardHandler(struct regs *r)
 	if ((sc & 0x80))
 	{
 		g_nKeyStates[sc & ~0x80] = 0;
-	}
+}
 	else
 	{
 		g_nKeyStates[sc] = 1;

@@ -28,8 +28,8 @@ void MemMgrInit(DWORD size, LPVOID bitmap)
 {
 	_memmgr_memsize = size;
 	_memmgr_memmap = (DWORD *)bitmap;
-	_memmgr_maxblocks = (size * 1024) / MEMMGR_BLOCK_SIZE;
-	_memmgr_usedblocks = _memmgr_maxblocks;
+	_memmgr_maxblocks =(size-(size%MEMMGR_BLOCK_SIZE))/MEMMGR_BLOCK_SIZE;
+	_memmgr_usedblocks =0;
 	
 	_memset((LPVOID)_memmgr_memmap, 0xF, _memmgr_maxblocks / MEMMGR_BLOCKS_PER_BYTE);
 }
@@ -37,7 +37,8 @@ void MemMgrInit(DWORD size, LPVOID bitmap)
 //! Sets the status of a single memory block.
 void MemMgrSetBlockStatus(DWORD block, DWORD status)
 {
-	DWORD _stat = MemMgrGetBlockStatus(block);
+	DWORD _stat =(DWORD)(_memmgr_memmap[(DWORD)(block / 32)]);
+
 	if (_stat == status) return; // we already have this status set...
 
 	if (status == MEMMGR_STATUS_INUSE)
