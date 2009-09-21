@@ -28,11 +28,31 @@ code		- 	system call 	- 	description
 #define SYSCALL_CONSOLEPUTCH	0x00000001
 #define SYSCALL_CONSOLEPUTS	0x00000002
 #define SYSCALL_GETBOOTHEADER	0x00000003
+#define SYSCALL_TIMER_GETTIME 0x00000004
+#define SYSCALL_TIMER_GETTICKS 0x00000005
+#define SYSCALL_EXIT 0x00000006
+#define SYSCALL_CLOSE 0x0000007
+#define SYSCALL_EXECVE 0x00000008
+#define SYSCALL_FORK 0x00000009
+#define SYSCALL_FSTAT 0x0000000A
+#define SYSCALL_GETPID 0x0000000B
+#define SYSCALL_ISTTY 0x0000000C
+#define SYSCALL_KILL 0x0000000D
+#define SYSCALL_LINK 0x0000000E
+#define SYSCALL_LSEEK 0x00000010
+#define SYSCALL_OPEN 0x00000011
+#define SYSCALL_READ 0x00000012
+#define SYSCALL_SBRK 0x00000013
+#define SYSCALL_STAT 0x00000014
+#define SYSCALL_TIMES 0x00000015
+#define SYSCALL_UNLINK 0x00000016
+#define SYSCALL_WAIT 0x00000017
+#define SYSCALL_WRITE 0x00000018
 
 //! Installs a system call routine
 void SystemCallInstall(DWORD code, LPVOID proc);
 
-//! Handles sytem calls
+//! Handles system calls
 void SystemCallHandler(struct regs *r);
 
 //! Setup system calls
@@ -45,5 +65,6 @@ void SysCall_ConsolePuts(struct regs *r);
 void SysCall_GetBootHeader(struct regs *r);
 void SysCall_TimerGetTime(struct regs *r);
 void SysCall_TimerGetTicks(struct regs *r);
+void SysCall_Nop(struct regs *r);
 
 #endif /* __SYSCALLS__H */
