@@ -1,5 +1,5 @@
 CC= gcc
-CFLAGS= -Wall -Wextra -Werror -nostdlib -nostartfiles -nodefaultlibs
+CFLAGS= -Wall -Wextra -Werror -nostdlib -nostartfiles -nodefaultlibs -fno-stack-protector
 AS=nasm
 A_FLAGS= -f elf
 L_FLAGS=
@@ -19,7 +19,7 @@ $(A_FILES): %.o:%.asm
 	 @$(AS) $(A_FLAGS) $<
 $(O_FILES): %.o : %.c
 	@echo `date '+%H:%M:%S:'` Compiling $<.
-	@$(CC) -c $(C_FLAGS) $<
+	@$(CC) -c $(CFLAGS) $<
 clean:
 	@echo `date '+%H:%M:%S:'` Deleting $(OUTPUT) and all associated object files...
 	@rm -rf $(O_FILES) $(O_FILES_L) $(A_FILES)
