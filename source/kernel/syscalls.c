@@ -19,7 +19,7 @@ void SystemCallInstall(DWORD code, LPVOID proc)
 	g_pSysCallProcs[code] = proc;
 }
 
-//! Handles sytem calls
+//! Handles system calls
 void SystemCallHandler(struct regs *r)
 {
 	if ((r->eax < 0) || (r->eax >= SYSCALL_MAX))
@@ -36,13 +36,30 @@ void SystemCallHandler(struct regs *r)
 void SetupSystemCalls()
 {
 //	ConsolePuts("Loading system calls...");
-	SystemCallInstall(0x00000000, SysCall_DebugMessage);
-	SystemCallInstall(0x00000001, SysCall_ConsolePutch);
-	SystemCallInstall(0x00000002, SysCall_ConsolePuts);
-	SystemCallInstall(0x00000003, SysCall_GetBootHeader);
-	SystemCallInstall(0x00000004, SysCall_TimerGetTime);
-	SystemCallInstall(0x00000005, SysCall_TimerGetTicks);
-//	ConsolePuts(" success!\n");
+	SystemCallInstall(SYSCALL_DEBUGMESSAGE, SysCall_DebugMessage);
+	SystemCallInstall(SYSCALL_CONSOLEPUTCH, SysCall_ConsolePutch);
+	SystemCallInstall(SYSCALL_CONSOLEPUTS, SysCall_ConsolePuts);
+	SystemCallInstall(SYSCALL_GETBOOTHEADER, SysCall_GetBootHeader);
+	SystemCallInstall(SYSCALL_TIMER_GETTIME, SysCall_TimerGetTime);
+	SystemCallInstall(SYSCALL_TIMER_GETTICKS, SysCall_TimerGetTicks);
+SystemCallInstall(SYSCALL_EXIT,SysCall_Nop);
+SystemCallInstall(SYSCALL_CLOSE,SysCall_Nop);
+SystemCallInstall(SYSCALL_EXECVE,SysCall_Nop);
+SystemCallInstall(SYSCALL_FORK,SysCall_Nop);
+SystemCallInstall(SYSCALL_FSTAT,SysCall_Nop);
+SystemCallInstall(SYSCALL_GETPID,SysCall_Nop);
+SystemCallInstall(SYSCALL_ISTTY,SysCall_Nop);
+SystemCallInstall(SYSCALL_KILL,SysCall_Nop);
+SystemCallInstall(SYSCALL_LINK,SysCall_Nop);
+SystemCallInstall(SYSCALL_LSEEK,SysCall_Nop);
+SystemCallInstall(SYSCALL_OPEN,SysCall_Nop);
+SystemCallInstall(SYSCALL_READ,SysCall_Nop);
+SystemCallInstall(SYSCALL_SBRK,SysCall_Nop);
+SystemCallInstall(SYSCALL_STAT,SysCall_Nop);
+SystemCallInstall(SYSCALL_TIMES,SysCall_Nop);
+SystemCallInstall(SYSCALL_UNLINK,SysCall_Nop);
+SystemCallInstall(SYSCALL_WAIT,SysCall_Nop);
+SystemCallInstall(SYSCALL_WRITE,SysCall_Nop);
 }
 
 // -- System call list --
@@ -89,4 +106,9 @@ void SysCall_TimerGetTicks(struct regs *r)
 {
 	// return the tick count in eax
 	r->eax = TimerGetTicks();
+}
+
+void SysCall_Nop(struct regs *r)
+{
+r->eax=0;
 }

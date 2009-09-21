@@ -60,7 +60,8 @@ BOOL InitKernel(struct MULTIBOOT_INFO *info)
 
 	// Now we need to init our memory manager and set our regions
 	unsigned long int totalMemory = info->mem_lower + info->mem_upper; // in KB??
-	MemMgrInit(totalMemory*1024, (LPVOID)kernelBegin);
+DWORD kernelSize=(kernelEnd-kernelBegin+((kernelEnd-kernelBegin)%MEMMGR_BLOCK_SIZE))+MEMMGR_BLOCK_SIZE; //the size of the kernel, aligned on a (MEMMGR_BLOCK_SIZE) boundry., with extra space.
+	MemMgrInit((totalMemory*1024)-kernelSize, (LPVOID)kernelSize);
 
 	// now we need to setup our memory regions...
 	struct MEMORY_REGION *region = (struct MEMORY_REGION *)0x1000; // NOT kernelBegin!!
