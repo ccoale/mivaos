@@ -1,5 +1,5 @@
 CC= gcc
-CFLAGS= -Wall -Wextra -Werror -nostdlib -nostartfiles -nodefaultlibs -fno-stack-protector
+CFLAGS= -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -fno-stack-protector
 AS=nasm
 A_FLAGS= -f elf
 L_FLAGS=
