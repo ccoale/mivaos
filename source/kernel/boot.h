@@ -33,6 +33,32 @@ struct MULTIBOOT_HEADER
 
 struct MULTIBOOT_INFO
 {
+	DWORD flags; // required
+	DWORD memoryLo; // memory size, flags[0]
+	DWORD memoryHi;
+	DWORD bootDevice; // boot device, flags[1]
+	DWORD cmdLine; // kernel command line, flags[2]
+	DWORD modCount; // number of modules loaded, flags[3]
+	DWORD modAddr;
+	DWORD sym[3]; // symbol table info, flags[4]/flags[5]
+	DWORD memMapLength; // memory map, flags[6]
+	DWORD memMapAddr;
+	DWORD drivesLength; // drives, flags[7]
+	DWORD drivesAddr;
+	DWORD configTable; // ROM configuration table, flags[8]
+	DWORD bootLoaderName; // boot loader name, flags[9]
+	DWORD apmTable; // advanced power management table, flags[10]
+	DWORD vbeControlInfo; // video bios extension, flags[11]
+	DWORD vbeModeInfo;
+	WORD vbeMode;
+	WORD vbeInterfaceSeg;
+	WORD vbeInterfaceOff;
+	WORD vbeInterfaceLen;
+};
+
+/*
+struct MULTIBOOT_INFO
+{
 	DWORD flags;
 	DWORD mem_lower;
 	DWORD mem_upper;
@@ -56,6 +82,7 @@ struct MULTIBOOT_INFO
 	USHORT vbe_interface_len;
 	
 };
+*/
 
 //! Initializes the boot data by maybe a copy of the data and putting it in the global multiboot header
 void InitBootData(LPVOID mhd);
