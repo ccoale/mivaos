@@ -69,7 +69,7 @@ void SysCall_DebugMessage(struct regs *r)
 	struct MULTIBOOT_INFO info;
 	GetBootInfo(&info);
 
-	kprintf("Memory lower: %d KB, memory upper %d KB\n", info.mem_lower, info.mem_upper);
+	kprintf("Memory lower: %d KB, memory upper %d KB\n", info.memoryLo, info.memoryHi);
 	kprintf("Registered system calls: ");
 	int i = 0;
 	for (; i < SYSCALL_MAX; i++) {

@@ -7,11 +7,14 @@
 #include "boot.h"
 #include "syscalls.h"
 #include "timer.h"
-#include "mm.h"
-#include "paging.h"
+#include "physmm.h"
 
 extern long kernelBegin;
 extern long kernelEnd;
+DWORD memory[10];
+
+//! Initializes basic kernel functionality...
+BOOL InitKernel(struct MULTIBOOT_INFO *info);
 
 // makes our pretty ascii logo :)
 void OutputAsciiHeader()
@@ -58,39 +61,11 @@ BOOL InitKernel(struct MULTIBOOT_INFO *info)
 	KeyboardInstall();
 	kprintf("success!\nInitializing system memory... \n");
 
-	// Now we need to init our memory manager and set our regions
-	unsigned long int totalMemory = info->mem_lower + info->mem_upper; // in KB??
-DWORD kernelSize=(kernelEnd-kernelBegin+((kernelEnd-kernelBegin)%MEMMGR_BLOCK_SIZE))+MEMMGR_BLOCK_SIZE; //the size of the kernel, aligned on a (MEMMGR_BLOCK_SIZE) boundry., with extra space.
-	MemMgrInit((totalMemory*1024)-kernelSize, (LPVOID)kernelSize);
-
-	// now we need to setup our memory regions...
-	struct MEMORY_REGION *region = (struct MEMORY_REGION *)0x1000; // NOT kernelBegin!!
-	int i = 0;
-	for (i = 0; i < 15; ++i)
-	{
-		// quick sanity check...
-		if (region[i].dwType > 4) region[i].dwType = 1;
-		
-		// if our base address is 0, we're done
-		if ((i > 0) && (region[i].dwStartLo == 0)) break;
-
-		// Display our region...
-		kprintf("Region [%d]: start=0x%x%x, length=0x%x%x, type=%s\n", i, region[i].dwStartHi,
-			region[i].dwStartLo, region[i].dwSizeHi, region[i].dwSizeLo, region[i].dwType,
-			GSTR_MEMORY_TYPES[region[i].dwType - 1]);
-
-		// if the region is available, lets use it!
-		if (region[i].dwType == 1) MemMgrCreateRegion((LPVOID)region[i].dwStartLo, region[i].dwSizeLo);
-	}
-
-	// make sure we deinit the region our kernel is in...
-//	MemMgrDeleteRegion(&kernelBegin, (&kernelEnd - &kernelBegin) * 512);
-	
-	// display memory information to the user...
-	unsigned long int totalBlocks = MemMgrGetBlockCount();
-	unsigned long int freeBlocks = MemMgrGetFreeBlockCount();
-	kprintf("Total Memory: %dB\nLower Memory: %dB\nUpper Memory: %dB\nAllocation Blocks: %d\nReserved Blocks: %d\nFree Blocks: %d\n", totalMemory, info->mem_lower, info->mem_upper, totalBlocks, (totalBlocks - freeBlocks), freeBlocks);
-
+	// display some boot info
+	kprintf((const char *)info->cmdLine);
+	kprintf("Memory lo: %d\nMemory hi: %d\n",
+		info->memoryLo, info->memoryHi);
+	kprintf("Flags: %d\n", info->flags);
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 
 
