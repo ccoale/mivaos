@@ -46,7 +46,7 @@ void kmain(void* mbd,unsigned int magic)
 BOOL InitKernel(struct MULTIBOOT_INFO *info)
 {
 	ConsoleCls(); // clear the screen
-	// OutputAsciiHeader();	// optionally show the ascii header -- not yet 
+OutputAsciiHeader();	// optionally show the ascii header -- not yet 
 	kprintf("MivaOS\nWritten by Christopher Coale and Tyler Littlefield.\n\nLoading... ");
 	
 	// We want to setup our GDT, IDT, ISRs, and IRQs, and setup system calls.
