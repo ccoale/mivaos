@@ -82,7 +82,6 @@ void KeyboardHandler(struct regs *r)
 	else
 	{
 		g_nKeyStates[sc] = 1;
-if ((g_nKeyStates[KEY_LWIN])||(g_nKeyStates[KEY_RWIN])) ConsolePuts("Windows? WTF do you think this is!\n");
 	}
 }
 
@@ -188,7 +187,5 @@ BYTE TranslateScancode(UINT code)
 
 void KeyboardInstall()
 {
-//	ConsolePuts("Loading default keyboard driver...");
 	IrqInstallHandler(1,KeyboardHandler);
-//	ConsolePuts(" success!\n");
 }
