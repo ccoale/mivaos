@@ -11,6 +11,8 @@
 
 extern long kernelBegin;
 extern long kernelEnd;
+extern UINT* memStack[1024];
+extern UINT memIndex;
 DWORD memory[10];
 
 //! Initializes basic kernel functionality...
@@ -45,6 +47,10 @@ void kmain(void* mbd,unsigned int magic)
 //! Initializes basic kernel functionality...
 BOOL InitKernel(struct MULTIBOOT_INFO *info)
 {
+int memIndex=0; //used for holding the index into the stack for memory blocks
+struct mmap* map;
+DWORD base,pages,index;
+
 	ConsoleCls(); // clear the screen
 OutputAsciiHeader();	// optionally show the ascii header -- not yet 
 	kprintf("MivaOS\nWritten by Christopher Coale and Tyler Littlefield.\n\nLoading... ");
@@ -55,17 +61,31 @@ OutputAsciiHeader();	// optionally show the ascii header -- not yet
 	IsrsInstall();
 	IrqInstall();
 	SetupSystemCalls();
-	kprintf("success!\nLoading system timer... ");
 	TimerInstall(100);
-	kprintf("success!\nLoading system keyboard driver... ");
 	KeyboardInstall();
-	kprintf("success!\nInitializing system memory... \n");
-
-	// display some boot info
-	kprintf((const char *)info->cmdLine);
 	kprintf("Memory lo: %d\nMemory hi: %d\n",
 		info->memoryLo, info->memoryHi);
-	kprintf("Flags: %d\n", info->flags);
+
+//we actually initialize our memory here
+map=(struct mmap*)info->memMapAddr;
+while ((UINT)map<(info->memMapAddr+info->memMapLength))
+{
+if (map->type==1)
+{
+base=map->base_l;
+pages=map->length_l>>12; //divide by 4096
+if (pages>0)
+{
+for (index=0;index<pages;index++)
+{
+memStack[memIndex]=(UINT*)(base+(4096*index));
+memIndex++;
+}
+}
+}
+map=(struct mmap*)((UINT)map+map->size+sizeof(UINT));
+}
+kprintf("Allocated %d physical pages.\n",memIndex-1);
 	// allows us to use our IRQs
 	__asm__ __volatile__ ("sti"); 
 

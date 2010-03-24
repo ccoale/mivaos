@@ -15,7 +15,9 @@ static DWORD* _PhysMemStack 	= 0;
 
 //! The current stack index.
 static DWORD _PhysMemStackIndex = 0;
-
+//a stack holding a list of pointers to physical memory.
+UINT* memStack[1024];
+UINT memIndex=0;
 //! Initializes the physical memory manager.
 //! 'size' is the size in bytes of the memory area to manage.
 //! 'stack' is a pointer to the area of memory that stores the memory stack.
