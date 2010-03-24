@@ -68,8 +68,10 @@ OutputAsciiHeader();	// optionally show the ascii header -- not yet
 
 //we actually initialize our memory here
 map=(struct mmap*)info->memMapAddr;
+kprintf("Memory map address is %x, length is %d\n",info->memMapAddr,info->memMapLength);
 while ((UINT)map<(info->memMapAddr+info->memMapLength))
 {
+printk("type: %d\n",map->type);
 if (map->type==1)
 {
 base=map->base_l;
