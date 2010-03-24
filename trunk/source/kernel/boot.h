@@ -43,46 +43,27 @@ struct MULTIBOOT_INFO
 	DWORD sym[3]; // symbol table info, flags[4]/flags[5]
 	DWORD memMapLength; // memory map, flags[6]
 	DWORD memMapAddr;
-	DWORD drivesLength; // drives, flags[7]
-	DWORD drivesAddr;
-	DWORD configTable; // ROM configuration table, flags[8]
-	DWORD bootLoaderName; // boot loader name, flags[9]
-	DWORD apmTable; // advanced power management table, flags[10]
-	DWORD vbeControlInfo; // video bios extension, flags[11]
-	DWORD vbeModeInfo;
-	WORD vbeMode;
-	WORD vbeInterfaceSeg;
-	WORD vbeInterfaceOff;
-	WORD vbeInterfaceLen;
+// 	DWORD drivesLength; // drives, flags[7]
+//	DWORD drivesAddr;
+//	DWORD configTable; // ROM configuration table, flags[8]
+//	DWORD bootLoaderName; // boot loader name, flags[9]
+//	DWORD apmTable; // advanced power management table, flags[10]
+//	DWORD vbeControlInfo; // video bios extension, flags[11]
+//	DWORD vbeModeInfo;
+//	WORD vbeMode;
+//	WORD vbeInterfaceSeg;
+//	WORD vbeInterfaceOff;
+//	WORD vbeInterfaceLen;
 };
-
-/*
-struct MULTIBOOT_INFO
+typedef struct mmap
 {
-	DWORD flags;
-	DWORD mem_lower;
-	DWORD mem_upper;
-	DWORD boot_device;
-	DWORD cmdline;
-	DWORD mods_count;
-	DWORD mods_addr;
-	struct ELF_HEADER elf;
-	DWORD map_length;
-	DWORD map_addr;
-	DWORD drives_length;
-	DWORD drives_addr;
-	DWORD config_table;
-	DWORD boot_loader_name;
-	DWORD apm_table;
-	DWORD vbe_control_info;
-	DWORD vbe_mode_info;
-	USHORT vbe_mode;
-	USHORT vbe_interface_seg;
-	USHORT vbe_interface_off;
-	USHORT vbe_interface_len;
-	
-};
-*/
+DWORD size;
+DWORD base_l;
+DWORD base_h;
+DWORD length_l;
+DWORD length_h;
+DWORD type;
+} mmap_t;
 
 //! Initializes the boot data by maybe a copy of the data and putting it in the global multiboot header
 void InitBootData(LPVOID mhd);
